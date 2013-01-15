@@ -6,7 +6,9 @@
         <meta name="layout" content="logged" />
         <title>Pesquisa de Atendimentos</title>
         <link rel="stylesheet" href="${resource(dir:'css',file:'datepicker.css')}" />
-		 <link rel="stylesheet" href="${resource(dir:'css',file:'select2.css')}" />
+        <link rel="stylesheet" href="${resource(dir:'css',file:'timepicker.css')}" />
+    	<link rel="stylesheet" href="${resource(dir:'css',file:'select2.css')}" />
+    	<link rel="stylesheet" href="${resource(dir:'css',file:'uniform.css')}" />
 		
     </head>
     <body>
@@ -169,7 +171,8 @@
 															
 															
 															<g:if test="${ordemServicoInstance.status!='cancelado' && ordemServicoInstance.status!='aberta' && ordemServicoInstance.status!='com o tecnico'}">
-																<a href='${request.contextPath}/ordemServico/fechamento/${ordemServicoInstance.id}' class="btn btn-primary btn-large tip-top" data-original-title="Finalizar atendimento"><i class="icon-ok icon-white"></i></a>
+																<a onclick="prepararFormFechamento('${ordemServicoInstance.id}');" 
+																class="btn btn-primary btn-large tip-top" data-original-title="Finalizar atendimento"><i class="icon-ok icon-white"></i></a>
 															</g:if>
 															<g:if test="${ordemServicoInstance.status!='cancelado' && ordemServicoInstance.status!='aberta' && ordemServicoInstance.status!='com o tecnico'}">
 																<a href='${request.contextPath}/imagem/create/${ordemServicoInstance.id}' class="btn btn-primary btn-large tip-top" data-original-title="Incluir fotos"><i class="icon-camera icon-white"></i></a>
@@ -220,6 +223,8 @@
 	</div>
 
              <g:javascript library="bootstrap-datepicker" />
+             <g:javascript library="locales/bootstrap-datepicker.pt-BR" />
+			 <g:javascript library="bootstrap-timepicker" />
              <g:javascript library="jquery.uniform" /> 
              <g:javascript library="jquery.ui.custom" />
              <g:javascript library="select2" /> 
@@ -233,6 +238,7 @@
   			  <g:render template="encaminhar" />
   			  <g:render template="validarSenha"  />
   			  <g:render template="historicoAtendimento"/>
+  			  <g:render template="fechamento"/>
     </body>
 </html>
 

@@ -222,37 +222,6 @@ class OrdemServicoController extends BaseController{
             ordemServicoInstance.fotos=params.fotos
 			ordemServicoInstance.visitaPerdida=params.visitaPerdida!=null
 
-            def checklistfile = request.getFile('checklist');
-            
-            if(!checklistfile.empty){
-                (new File(Imagem.uploadPath+ordemServicoInstance.numero+'/')).mkdir();
-
-                String nomeImg = checklistfile.hashCode() +'.jpg'
-
-                String pathDir = System.getProperty("java.io.tmpdir")+"/"+ordemServicoInstance.id+"/"
-					
-                File dir = new File(pathDir.trim());
-					
-				dir.mkdir()
-
-                File f = new  File(pathDir.trim()+'/temp_' + nomeImg );
-                checklistfile.transferTo(f)
-                    
-                ImagemController.createThumbnail(f,ordemServicoInstance.id,"thumb_"+nomeImg)
-				ImagemController.createThumbnail(f,ordemServicoInstance.id,nomeImg)
-				
-				f.delete()
-
-                def checkListImage = new Imagem(nomeImagem:checklistfile.hashCode() +'.jpg',checklist:true)
-
-                checkListImage.ordemServico = ordemServicoInstance
-
-                checkListImage.save()
-
-                gravaLog(ordemServicoInstance, LogOrdemServico.IMAGEM)
-            }
-
-            
 
             if(params.visitaPerdida){
                 ordemServicoInstance.status = "visita perdida"

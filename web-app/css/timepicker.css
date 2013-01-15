@@ -9,6 +9,7 @@
 }
 .bootstrap-timepicker.dropdown-menu.open {
     display: inline-block;
+    z-index:1000000000;
 }
 .bootstrap-timepicker.dropdown-menu:before {
     border-bottom: 7px solid rgba(0, 0, 0, 0.2);

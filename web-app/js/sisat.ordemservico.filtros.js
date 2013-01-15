@@ -1,9 +1,13 @@
 $(document).ready(function(){
 	
-	var trocaStatus;
+	var trocaStatus,server='http://localhost:8080/SISAT/';
 	
 	$('#datepickerInicio').datepicker({autoclose:true,language:'pt-BR'});
 	$('#datepickerFinal').datepicker({autoclose:true,language:'pt-BR'});
+	$('#datepickerSaida').datepicker({autoclose:true,language:'pt-BR'});
+	$('#horaSaida').timepicker({
+		showMeridian:false
+	});
 	
 	
 	
@@ -13,10 +17,10 @@ $(document).ready(function(){
 		$('#modalValidar').show();
 	};
 	
-	window.encaminharParaTecnico = function(idAtend){
-		var nomeTecnico=$('#funcionario'+idAtend + ' :selected').text();
-		 $.post('http://localhost:8080/SICA-WEB/ordemServico/encaminharParaTecnico',
-				 $('#encaminhar'+idAtend).serialize(), 
+	window.encaminharParaTecnico = function(){
+		var nomeTecnico=$('#funcionario :selected').text();
+		 $.post(server + 'ordemServico/encaminharParaTecnico',
+				 $('#encaminhar').serialize(), 
 				 function(data) {  
 			 		var idAtend = $('#encaminharId').val();
 			 		$('#modalEncaminhar').hide();
@@ -34,7 +38,7 @@ $(document).ready(function(){
 	
 	
 	window.validarSenha = function(){
-		 $.post('http://localhost:8080/SICA-WEB/ordemServico/validarSenha',
+		 $.post(server + 'ordemServico/validarSenha',
 				 $('#validarSenha').serialize(), 
 				 function(data) {  
 			 		var idAtend = $('#validarSenhaId').val();
@@ -51,13 +55,30 @@ $(document).ready(function(){
 		$('#modalHistorico').show();
 	};
 	
-	window.gravarHistorico = function(idAtend){
-		 $.post('http://localhost:8080/SICA-WEB/historicoAtendimento/save',
+	window.gravarHistorico = function(){
+		 $.post(server + 'historicoAtendimento/save',
 				 $('#historico').serialize(), 
 				 function(data) {  
 			 		var idAtend = $('#historicoId').val();
 			 		$('#modalHistorico').hide();
 			 		$('#historicoPlace'+idAtend).append(data);
+			 		});
+	};
+	
+	window.prepararFormFechamento = function(idAtend){
+		$('#fechamento')[0].reset();
+		$('#fechamentoId').val(idAtend);
+		$('#modalfechamento').show();
+	};
+	
+	window.fecharAtendimento = function(){
+		 $.post(server + 'ordemServico/fecharAtendimento',
+				 $('#fechamento').serialize(), 
+				 function(data) {  
+			 		var idAtend = $('#fechamentoId').val();
+			 		$('#modalfechamento').hide();
+			 		trocaStatus("fechada","label label-fechada",idAtend);
+			 		
 			 		});
 	};
 	
@@ -67,7 +88,10 @@ $(document).ready(function(){
  		$('#status'+idAtend).html(status);
  		$('#modalstatus'+idAtend).addClass(css);
  		$('#modalstatus'+idAtend).html(status);
-	}
+	};
+	
+	
+	
 	
 	
 	
