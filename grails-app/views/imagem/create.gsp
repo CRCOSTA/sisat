@@ -7,7 +7,7 @@
         <title>Fotos do atendimento</title>
         
         <link rel="stylesheet" href="${resource(dir:'css',file:'select2.css')}" />
-        <link rel="stylesheet" href="${resource(dir:'css',file:'uniform.css')}" />
+        <link rel="stylesheet" href="${resource(dir:'css',file:'uploadify.css')}" />
         <link rel="stylesheet" href="${resource(dir:'css',file:'bootstrap-image-gallery.css')}" />
 		
         
@@ -55,7 +55,7 @@
 					</div>
 					<div class="widget-content nopadding">
     			        <g:form action="save" method="post" controller="imagem" class="form-horizontal" novalidate="novalidate" enctype="multipart/form-data">
-	              			 <g:hiddenField name="id" value="${ordemServicoInstance?.id}" />
+	              			 <g:hiddenField name="id" id="id" value="${ordemServicoInstance?.id}" />
 	              			 <div class="control-group">
 	                             <label class="control-label">N&uacute;mero</label>
 	                             <div class="controls">
@@ -96,60 +96,12 @@
 	                         <div class="control-group">
 	                             <label class="control-label"> Fotos 1: </label>
 	                             <div class="controls">
-									<input type="file" name="foto1" />
+														
+			
+			<input type="file" name="foto1" id="fotoFile"/>
 	                             </div>
 	                         </div>
 	                         
-	                         <div class="control-group">
-	                             <label class="control-label"> Fotos 2: </label>
-	                             <div class="controls">
-									<input type="file" name="foto2" />
-	                             </div>
-	                         </div>
-	                         
-	                         <div class="control-group">
-	                             <label class="control-label"> Fotos 3: </label>
-	                             <div class="controls">
-									<input type="file" name="foto3" />
-	                             </div>
-	                         </div>
-	                         
-	                         <div class="control-group">
-	                             <label class="control-label"> Fotos 4: </label>
-	                             <div class="controls">
-									<input type="file" name="foto4" />
-	                             </div>
-	                         </div>
-	                         
-	                          <div class="control-group">
-	                             <label class="control-label"> Fotos 5: </label>
-	                             <div class="controls">
-									<input type="file" name="foto5" />
-	                             </div>
-	                         </div>
-	                         
-	                          <div class="control-group">
-	                             <label class="control-label"> Fotos 6: </label>
-	                             <div class="controls">
-									<input type="file" name="foto6" />
-	                             </div>
-	                         </div>
-	                         
-	                          <div class="control-group">
-	                             <label class="control-label"> Fotos 7: </label>
-	                             <div class="controls">
-									<input type="file" name="foto7" />
-	                             </div>
-	                         </div>
-	                         
-	                          <div class="control-group">
-	                             <label class="control-label"> Fotos 8: </label>
-	                             <div class="controls">
-									<input type="file" name="foto8" />
-	                             </div>
-	                         </div>
-	                         
-	                        
 	                         <div class="form-actions">
 								<input type="submit" value="Salvar" id="create" class="btn btn-primary">
 							</div>
@@ -186,13 +138,23 @@
 
 	<g:javascript library="load-image" /> 
 	<g:javascript library="bootstrap-image-gallery" />
-
 	<g:javascript library="bootstrap-datepicker" />
-	<g:javascript library="jquery.uniform" /> 
 	<g:javascript library="jquery.ui.custom" />
-	<g:javascript library="select2" /> 
-	<g:javascript library="unicorn.form_common" />
+	<g:javascript library="jquery.uploadify-3.1" />
 	
-	 
+	 <script type="text/javascript">
+    $(function() {
+        $('#fotoFile').uploadify({
+        	'formData' : {id:$('#id').val()},
+            'swf'      : '/SISAT/images/uploadify.swf',
+            'uploader' : '/SISAT/imagem/upload',
+            'uploadLimit' : 8,
+            'queueSizeLimit' : 8,
+            'buttonText' : 'Selecionar Arquivos',
+            'width'    : 150
+            // Your options here
+        });
+    });
+    </script>
     </body>
 </html>

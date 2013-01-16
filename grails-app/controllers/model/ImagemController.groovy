@@ -53,6 +53,44 @@ class ImagemController extends BaseController{
             return [ordemServicoInstance: ordemServicoInstance]
         }
     }
+	
+	def upload = {
+		println params.idAtend
+		def ordemServicoInstance = OrdemServico.get(params.idAtend)
+		
+		def imagefile = request.getFile('Filedata');
+		
+		
+		if(!imagefile.empty){
+			
+			String nomeImg = imagefile.hashCode()+'.jpg'
+
+			String pathDir = System.getProperty("java.io.tmpdir")+"/"+ordemServicoInstance.id+"/"
+			
+			File dir = new File(pathDir.trim());
+			
+			dir.mkdir()
+
+			File f = new  File(pathDir.trim()+'/temp_' + nomeImg );
+			imagefile.transferTo(f)
+			
+			createThumbnail(f,ordemServicoInstance.id,"thumb_"+nomeImg)
+			createPhoto(f,ordemServicoInstance.id,nomeImg)
+			
+			f.delete()
+
+			def foto = new Imagem(nomeImagem:nomeImg ,checklist:false)
+
+			foto.ordemServico = ordemServicoInstance
+
+			foto.save()
+
+			gravaLog(ordemServicoInstance, LogOrdemServico.IMAGEM)
+		}
+		
+		render ""
+		
+	}
 
     def save = {
             def ordemServicoInstance = OrdemServico.get(params.id)

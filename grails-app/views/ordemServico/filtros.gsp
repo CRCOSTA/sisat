@@ -9,6 +9,7 @@
         <link rel="stylesheet" href="${resource(dir:'css',file:'timepicker.css')}" />
     	<link rel="stylesheet" href="${resource(dir:'css',file:'select2.css')}" />
     	<link rel="stylesheet" href="${resource(dir:'css',file:'uniform.css')}" />
+    	<link rel="stylesheet" href="${resource(dir:'css',file:'uploadify.css')}" />
 		
     </head>
     <body>
@@ -175,7 +176,8 @@
 																class="btn btn-primary btn-large tip-top" data-original-title="Finalizar atendimento"><i class="icon-ok icon-white"></i></a>
 															</g:if>
 															<g:if test="${ordemServicoInstance.status!='cancelado' && ordemServicoInstance.status!='aberta' && ordemServicoInstance.status!='com o tecnico'}">
-																<a href='${request.contextPath}/imagem/create/${ordemServicoInstance.id}' class="btn btn-primary btn-large tip-top" data-original-title="Incluir fotos"><i class="icon-camera icon-white"></i></a>
+																<a  onclick="prepararFormUploadFoto('${ordemServicoInstance.id}');" 
+																class="btn btn-primary btn-large tip-top" data-original-title="Incluir fotos"><i class="icon-camera icon-white"></i></a>
 															</g:if>
 															<a class="btn btn-primary btn-large tip-top" data-original-title="Incluir material"><i class="icon-briefcase icon-white"></i></a>
 															<g:if test="${session?.user?.admin}">
@@ -231,6 +233,7 @@
              <g:javascript library="unicorn.form_common" />
              <g:javascript library="jquery.dataTables" />      
              <g:javascript library="unicorn.tables" />
+             <g:javascript library="jquery.uploadify-3.1" />
   			 <g:javascript library="sisat.ordemservico.filtros" />
   			 
   			 
@@ -239,6 +242,7 @@
   			  <g:render template="validarSenha"  />
   			  <g:render template="historicoAtendimento"/>
   			  <g:render template="fechamento"/>
+  			  <g:render template="uploadFoto"/>
     </body>
 </html>
 

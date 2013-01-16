@@ -8,8 +8,25 @@ $(document).ready(function(){
 	$('#horaSaida').timepicker({
 		showMeridian:false
 	});
+	$('#fotoFile').uploadify({
+        'swf'      : '/SISAT/images/uploadify.swf',
+        'uploader' : '/SISAT/imagem/upload',
+        'uploadLimit' : 8,
+        'queueSizeLimit' : 8,
+        'buttonText' : 'Selecionar Arquivos',
+        'width'    : 150,
+        'fileDesc' : 'Allowed Types: (*.jpg,*.png,*.gif)',
+        'fileExt' : '*.jpg;*.JPG;*.gif;*.GIF;*.png;*.PNG',
+        'onUploadStart' : function(file) {
+        	$('#fotoFile').uploadify('settings','formData',{'idAtend':$('#uploadFotoId').val()});
+        }
+        // Your options here
+    });
 	
-	
+	window.prepararFormUploadFoto = function(idAtend){
+		$('#uploadFotoId').val(idAtend);
+		$('#modaluploadfoto').show();
+	};
 	
 	window.prepararFormValidarSenha = function(idAtend){
 		$('#validarSenha')[0].reset();
