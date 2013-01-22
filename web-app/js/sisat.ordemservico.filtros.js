@@ -8,6 +8,11 @@ $(document).ready(function(){
 	$('#horaSaida').timepicker({
 		showMeridian:false
 	});
+	$('#funcionarioId').select2();
+	
+	
+	
+	
 	$('#fotoFile').uploadify({
         'swf'      : '/SISAT/images/uploadify.swf',
         'uploader' : '/SISAT/imagem/upload',
@@ -22,6 +27,53 @@ $(document).ready(function(){
         }
         // Your options here
     });
+	
+	window.prepararFormMaterial = function(idAtend){
+		
+		$('#materialForm')[0].reset();
+		$("#selectMaterial").select2('destroy')
+		 $.post(server + 'movimentacaoDeMaterial/getMaterialList',
+				 {id:idAtend}, 
+				 function(data) {  
+					var options='',jsonMaterial ,materiais=data;
+					
+					$("#selectMaterial").select2({
+				        placeholder: "Selecione o material...",
+			            data:{results:data}
+				    });
+			 		
+			 		$('#modalmaterial').show();
+			 		$('#idAtend').val(idAtend);
+			 		
+			 		});
+		
+	}
+	
+	window.addMaterial = function(idAtend){
+		var quantidade=$('#quantidade').val()*(-1), descricao='Codigo da autorizacao -->' + Math.floor(Math.random()*101010),
+			dados= {id:idAtend,
+				tipo:'Saida',
+				'listMaterial.id':$('#selectMaterial').select2('val'),
+				'descricao':descricao,
+				quantidade:quantidade
+				};
+		
+		 $.post(server + 'movimentacaoDeMaterial/saveAjax',
+				 dados, 
+				 function(data) {  
+					
+					linha = '<tr><td>'+ descricao+'</td><td>'+$('#selectMaterial').select2('data').materialDesc+ '</td><td>'+ quantidade*(-1) +'</td></tr>';
+					
+					$('#materiais'+idAtend).append(linha);
+					
+					$('#modalmaterial').hide();
+			 		
+			 		});
+		
+		
+		
+		
+	}
 	
 	window.prepararFormUploadFoto = function(idAtend){
 		$('#uploadFotoId').val(idAtend);

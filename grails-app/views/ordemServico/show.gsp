@@ -14,6 +14,14 @@
        
     <div id="content-header">
 		<h1>Visualiza&ccedil;&atilde;o de atendimentos</h1>
+		
+		<div class="btn-group" style="width: auto;">
+					<a class="btn btn-large tip-bottom" data-original-title="Ver Mapa"><i class="icon-globe"></i></a>
+					<g:if test="${ordemServicoInstance.status!='cancelado' && ordemServicoInstance.status!='fechada'}">
+						<a class="btn btn-danger btn-large tip-bottom" data-original-title="Cancelar atendimento"><i class="icon-trash icon-white"></i></a>
+					</g:if>
+				</div>
+				
 				
 	</div>
     <div id="breadcrumb">
@@ -185,7 +193,7 @@
 													 ${material.material.descricao}
 												</td>
 												<td>
- 													${material.material.descricao}
+ 													${material.quantidade*(-1)}
  												</td>
 											</tr>
 										</g:each>

@@ -1,5 +1,7 @@
 package model
 
+import grails.converters.JSON
+
 class MovimentacaoDeMaterialController extends BaseController{
 
     def index = { redirect(action: "list", params: params) }
@@ -11,6 +13,14 @@ class MovimentacaoDeMaterialController extends BaseController{
         params.max = Math.min(params.max ? params.max.toInteger() : 10,  100)
         [movimentacaoDeMaterialInstanceList: MovimentacaoDeMaterial.list(params), movimentacaoDeMaterialInstanceTotal: MovimentacaoDeMaterial.count()]
     }
+	
+	def getMaterialList = {
+		
+		def ordemServicoInstance = OrdemServico.get(params.id)
+		def listEstoque = EstoqueFuncionario.findAllByFuncionario(ordemServicoInstance.funcionario)
+		
+		render listEstoque as JSON
+	}
 
     def create = {
         def ordemServicoInstance = OrdemServico.get(params.id)
@@ -27,13 +37,50 @@ class MovimentacaoDeMaterialController extends BaseController{
 			
 			def listMaterial = EstoqueFuncionario.findAllByFuncionario(ordemServicoInstance.funcionario);
 			
-			print listMaterial
-			
-			print ordemServicoInstance.funcionario
-			
             return [movimentacaoDeMaterialInstance: movimentacaoDeMaterialInstance,ordemServicoInstance: ordemServicoInstance,movimentacaoDeMaterialPorOrdemServico:movimentacaoDeMaterialPorOrdemServico,listMaterial:listMaterial]
         }
     }
+	
+	def saveAjax = {
+		
+		def estoqueFuncionario = EstoqueFuncionario.get(params.listMaterial.id)
+		def ordemServicoInstance = OrdemServico.get(params.id);
+		def funcionario = (Funcionario)session.user
+		
+		
+		def movimentacaoDeMaterialInstance = new MovimentacaoDeMaterial(params)
+		
+		movimentacaoDeMaterialInstance.material = estoqueFuncionario.material
+		
+		movimentacaoDeMaterialInstance.funcionario = funcionario
+		
+		movimentacaoDeMaterialInstance.ordemServico=ordemServicoInstance
+		
+		movimentacaoDeMaterialInstance.dataMovimentacao=new Date()
+		
+		if (!movimentacaoDeMaterialInstance.hasErrors() && movimentacaoDeMaterialInstance.save()) {
+			def material= estoqueFuncionario.material
+			material.estoqueAtual = material.estoqueAtual+ movimentacaoDeMaterialInstance.quantidade;
+			
+			if (material.save()){
+
+				estoqueFuncionario.qtd = estoqueFuncionario.qtd +  movimentacaoDeMaterialInstance.quantidade
+				
+				if(estoqueFuncionario.qtd<=0){
+					estoqueFuncionario.delete();
+				}else{
+					estoqueFuncionario.save();
+				}
+				
+				ordemServicoInstance.addToMateriais(movimentacaoDeMaterialInstance);
+				ordemServicoInstance.save();
+				
+				render "ok"
+			}
+		}
+		
+		
+	}
 
     def save = {
         def movimentacaoDeMaterialInstance = new MovimentacaoDeMaterial(params)
@@ -49,6 +96,8 @@ class MovimentacaoDeMaterialController extends BaseController{
         movimentacaoDeMaterialInstance.funcionario = funcionario
 		
 		movimentacaoDeMaterialInstance.ordemServico=ordemServicoInstance
+		
+		movimentacaoDeMaterialInstance.dataMovimentacao=new Date()
 
         if (!movimentacaoDeMaterialInstance.hasErrors() && movimentacaoDeMaterialInstance.save()) {
 			

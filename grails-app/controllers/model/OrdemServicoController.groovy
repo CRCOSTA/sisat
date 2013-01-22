@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat
 
 class OrdemServicoController extends BaseController{
 
-    def index = { redirect(action: "list", params: params) }
 
     // the delete, save and update actions only accept POST requests
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
@@ -48,11 +47,13 @@ class OrdemServicoController extends BaseController{
 	def filtros={
 		def ordemServicoInstance = new OrdemServico()
 		
-		
-		
 		if(params.pesquisar!="pesquisar"){
-			session.dateIni=df.format(new Date())
-			session.dateFim=df.format(new Date())
+			if(!session.dateIni){
+				session.dateIni=df.format(new Date())
+			}
+			if(!session.dateFim){
+				session.dateFim=df.format(new Date())
+			}
 			return [ordemServicoInstance: ordemServicoInstance]
 		}
 
@@ -80,15 +81,16 @@ class OrdemServicoController extends BaseController{
 
 
         }else{
-
+			session.dateIni=params.inicio
+			session.dateFim=params.final
+			session.funcionarioId=params.funcionario.id
+			session.formaDeAcionamento=params.formaDeAcionamento
 
             if(params.inicio!=null && params.final!=null){
 				
 				Date dataIni = df.parse(params.inicio);
 				Date dataFim = df.parse(params.final);
-				session.dateIni=params.inicio
-				session.dateFim=params.fim
-
+				
                 queryFilter = queryFilter + "o.dataAtendimento between :p_inicio and :p_final"
                 queryParams.put("p_inicio",dataIni)
                 queryParams.put("p_final",dataFim)
@@ -96,7 +98,6 @@ class OrdemServicoController extends BaseController{
             }
 
             if(params.funcionario!=null && params.funcionario.id!="null"){
-				session.funcionarioId=params.funcionario.id
                 def objFuncionario = Funcionario.get(params.funcionario.id)
                 queryFilter = queryFilter + " and o.funcionario=:p_funcionario"
                 queryParams.put("p_funcionario",objFuncionario)
@@ -104,7 +105,6 @@ class OrdemServicoController extends BaseController{
             }
 
             if(params.formaDeAcionamento!="" && params.formaDeAcionamento!="null"){
-				session.formaAcionamento=params.formaDeAcionamento
                 queryFilter = queryFilter + " and o.formaDeAcionamento = :p_formaDeAcionamento"
                 queryParams.put("p_formaDeAcionamento",params.formaDeAcionamento)
 

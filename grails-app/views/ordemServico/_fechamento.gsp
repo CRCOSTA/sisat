@@ -43,7 +43,7 @@
 	                         </div>
 
 	                         <div class="control-group">
-	                             <label class="control-label"> Diagn&oacute;tico </label>
+	                             <label class="control-label"> Diagn&oacute;stico </label>
 	                             <div class="controls">
 										 <g:textArea style="width:320px;height:50px;"  name="diagnostico" rows="3" cols="150"/>
 										
@@ -70,7 +70,7 @@
            	
     </div>
 	<div class="modal-footer">
-		<input type="button" class="btn btn-primary" value="fechamento" onclick="fecharAtendimento();" />
+		<input type="button" class="btn btn-primary" value="Salvar" onclick="fecharAtendimento();" />
 		<input type="button" class="btn" onclick="$('#modalfechamento').hide();" value="Fechar"/>
 	</div>
 </form>	

@@ -47,7 +47,7 @@
 										<div class="control-group">
 											<label class="control-label">Funcion&aacute;rios</label>
 											<div class="controls">
-												 <g:select name="funcionario.id" from="${model.Funcionario.findAllByTipoFuncionarioNotAndAtivo(model.TipoFuncionario.get(1),true)}" optionKey="id" value="${session?.funcionarioId}" noSelection="${['null':'Selecionar...']}" style="width:260px" />
+												 <g:select name="funcionario.id" id="funcionarioId" from="${model.Funcionario.findAllByTipoFuncionarioNotAndAtivo(model.TipoFuncionario.get(1),true)}" optionKey="id" value="${session?.funcionarioId}" noSelection="${['null':'Selecionar...']}" style="width:260px" />
 											</div>
 										</div>
 										<div class="control-group">
@@ -78,7 +78,7 @@
 										<div class="control-group">
 											<label class="control-label">Acionamento</label>
 											<div class="controls">
-													  <g:select name="formaDeAcionamento" from="${ordemServicoInstance.constraints.formaDeAcionamento.inList}" value="${session.formaDeAcionamento}" valueMessagePrefix="ordemServico.formaDeAcionamento" noSelection="${['null':'Selecionar...']}" style="width:260px" />
+													  <g:select name="formaDeAcionamento" from="${ordemServicoInstance.constraints.formaDeAcionamento.inList}" value="${session?.formaDeAcionamento}" valueMessagePrefix="ordemServico.formaDeAcionamento" noSelection="${['null':'Selecionar...']}" style="width:260px" />
 											</div>
 										</div>
 									 	<div class="form-actions">
@@ -148,50 +148,88 @@
 												${fieldValue(bean: ordemServicoInstance, field: "referencia")} <br>
 												${fieldValue(bean: ordemServicoInstance, field: "cidade")} <br> 
 												${fieldValue(bean: ordemServicoInstance, field: "bairro")}
-												   <h5>Hist&oacute;rico:</h5>
+												<h5>Hist&oacute;rico:</h5>
 												<span id="historicoPlace${ordemServicoInstance.id}">
 												${ordemServicoInstance.historicos}
-												</span>													
+												</span>			
+												
+												<h5>Materiais:</h5>
+												<div>
+												<table class="table table-bordered" id="materiais${ordemServicoInstance.id}">
+												<thead>
+												<tr>
+													<th>
+														 
+													</th>
+													<th>
+														 Descri&ccedil;&otilde;o
+													</th>
+													<th>
+														 Quantidade
+													</th>
+												</tr>
+												</thead>
+												
+												<tbody>
+												<g:each in="${ordemServicoInstance?.materiais}" status="j" var="material">
+			    					
+													<tr>
+														<td>
+															${material.descricao}
+														</td>
+														<td>
+															 ${material.material.descricao}
+														</td>
+														<td>
+		 													${material.quantidade*(-1)}
+		 												</td>
+													</tr>
+												</g:each>
+												</tbody>
+												</table>
+												</div>										
 
 												</div>
 												<div class="modal-footer">
 													<g:if test="${!session?.user?.analista}">
 														<div class="btn-group" style="width: auto;">
 															
-															<a href="#modalEncaminhar" id="encaminharBtn${ordemServicoInstance.id}"
+															<button id="encaminharBtn${ordemServicoInstance.id}"
 															${(ordemServicoInstance.status=='aberta' || ordemServicoInstance.status=='com o tecnico')?"":"style='display:none;'"} 
-															onclick="prepararFormEncaminhar('${ordemServicoInstance.id}')"  class="btn btn-primary btn-large tip-top" data-original-title="Encaminhar para o t&eacute;cnico"><i class="icon-user icon-white"></i></a>
+															onclick="prepararFormEncaminhar('${ordemServicoInstance.id}')"  class="btn btn-primary btn-large tip-top"
+															data-original-title="Encaminhar para o t&eacute;cnico"><i class="icon-user icon-white"></i></button>
 															
-															<a class="btn btn-primary btn-large tip-top" id="validarSenhaBtn${ordemServicoInstance.id}"
+															<button class="btn btn-primary btn-large tip-top" id="validarSenhaBtn${ordemServicoInstance.id}"
 															${ordemServicoInstance.status=='com o tecnico'?"":"style='display:none;'"} 
 															onclick="prepararFormValidarSenha('${ordemServicoInstance.id}');" 
-															data-original-title="Validar senha"><i class="icon-lock icon-white"></i></a>
+															data-original-title="Validar senha"><i class="icon-lock icon-white"></i></button>
 															
-															<a onclick="prepararFormHistorico('${ordemServicoInstance.id}');"  
-															class="btn btn-primary btn-large tip-top" data-original-title="Incluir hist&oacute;rico"><i class="icon-comment icon-white"></i></a>
+															<button onclick="prepararFormHistorico('${ordemServicoInstance.id}');"  
+															class="btn btn-primary btn-large tip-top" data-original-title="Incluir hist&oacute;rico"><i class="icon-comment icon-white"></i></button>
 															
 															
 															<g:if test="${ordemServicoInstance.status!='cancelado' && ordemServicoInstance.status!='aberta' && ordemServicoInstance.status!='com o tecnico'}">
-																<a onclick="prepararFormFechamento('${ordemServicoInstance.id}');" 
-																class="btn btn-primary btn-large tip-top" data-original-title="Finalizar atendimento"><i class="icon-ok icon-white"></i></a>
+																<button onclick="prepararFormFechamento('${ordemServicoInstance.id}');" 
+																class="btn btn-primary btn-large tip-top" data-original-title="Finalizar atendimento"><i class="icon-ok icon-white"></i></button>
 															</g:if>
 															<g:if test="${ordemServicoInstance.status!='cancelado' && ordemServicoInstance.status!='aberta' && ordemServicoInstance.status!='com o tecnico'}">
-																<a  onclick="prepararFormUploadFoto('${ordemServicoInstance.id}');" 
-																class="btn btn-primary btn-large tip-top" data-original-title="Incluir fotos"><i class="icon-camera icon-white"></i></a>
+																<button  onclick="prepararFormUploadFoto('${ordemServicoInstance.id}');" 
+																class="btn btn-primary btn-large tip-top" data-original-title="Incluir fotos"><i class="icon-camera icon-white"></i></button>
 															</g:if>
-															<a class="btn btn-primary btn-large tip-top" data-original-title="Incluir material"><i class="icon-briefcase icon-white"></i></a>
+															
+															<button onclick="prepararFormMaterial('${ordemServicoInstance.id}');" 
+															 class="btn btn-primary btn-large tip-top" data-original-title="Incluir material"><i class="icon-briefcase icon-white"></i></button>
+															 
 															<g:if test="${session?.user?.admin}">
 																<g:link action="edit" id="${ordemServicoInstance.id}" class="btn btn-primary btn-large tip-top" data-original-title="Editar"><i class="icon-edit icon-white"></i></g:link>
 															</g:if>
 															<g:if test="${!ordemServicoInstance?.recebida}">
-																<a class="btn btn-primary btn-large tip-top" data-original-title="Recebimento de checklist"><i class="icon-inbox icon-white"></i></a>
+																<button class="btn btn-primary btn-large tip-top" data-original-title="Recebimento de checklist"><i class="icon-inbox icon-white"></i></button>
 															</g:if>
 															<g:if test="${ordemServicoInstance?.fechada || ordemServicoInstance?.visitaPerdida}">
-																<a class="btn btn-primary btn-large tip-top" data-original-title="Enviar para pagamento"><i class="icon-share icon-white"></i></a>
+																<button class="btn btn-primary btn-large tip-top" data-original-title="Enviar para pagamento"><i class="icon-share icon-white"></i></button>
 															</g:if>
-															<g:if test="${ordemServicoInstance.status!='cancelado' && ordemServicoInstance.status!='fechada'}">
-																<a class="btn btn-danger btn-large tip-top" data-original-title="Cancelar atendimento"><i class="icon-trash icon-white"></i></a>
-															</g:if>
+															
 														</div>
 													</g:if>
 													</div>
@@ -230,7 +268,6 @@
              <g:javascript library="jquery.uniform" /> 
              <g:javascript library="jquery.ui.custom" />
              <g:javascript library="select2" /> 
-             <g:javascript library="unicorn.form_common" />
              <g:javascript library="jquery.dataTables" />      
              <g:javascript library="unicorn.tables" />
              <g:javascript library="jquery.uploadify-3.1" />
@@ -243,6 +280,7 @@
   			  <g:render template="historicoAtendimento"/>
   			  <g:render template="fechamento"/>
   			  <g:render template="uploadFoto"/>
+  			  <g:render template="movimentaMaterial"/>
     </body>
 </html>
 
