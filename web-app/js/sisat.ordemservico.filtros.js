@@ -28,6 +28,36 @@ $(document).ready(function(){
         // Your options here
     });
 	
+	window.receberOrdem = function(idAtend){
+		 $.post(server + 'ordemServico/receberOS',
+				 {id:idAtend}, 
+				 function(data) {  
+					 showSuccessMsg(idAtend,'Checklist recebido com sucesso.');
+			 		$('#osNumeroPlace'+idAtend).append('<i class=icon-flag></i>');
+				 });
+	}
+	
+	window.enviarPagamento = function(idAtend){
+		 $.post(server + 'ordemServico/enviarPagamento',
+				 $('#enviarPagamento').serialize(), 
+				 function(data) {  
+			 		showSuccessMsg(idAtend,'Atendimento adicionado em lota com sucesso.');
+			 		trocaStatus("aguardando pagamento","label label-aguardando_pagamento",idAtend);
+			 		prepararActions(idAtend,'aguardando_pagamento');
+			 
+				 });
+	}
+	
+	
+	window.prepararActions = function(idAtend,status){
+		
+		$('#actionGroup'+ idAtend + ' button').hide();
+		$('#actionGroup'+ idAtend + ' button:.'+ status).show();
+		$('#statusAtendimento'+ idAtend).val(status);
+		
+		
+	}
+	
 	window.prepararFormMaterial = function(idAtend){
 		
 		$('#materialForm')[0].reset();
@@ -61,19 +91,27 @@ $(document).ready(function(){
 		 $.post(server + 'movimentacaoDeMaterial/saveAjax',
 				 dados, 
 				 function(data) {  
-					
+			 		showSuccessMsg(idAtend,'Material adicionado com sucesso.');
 					linha = '<tr><td>'+ descricao+'</td><td>'+$('#selectMaterial').select2('data').materialDesc+ '</td><td>'+ quantidade*(-1) +'</td></tr>';
 					
 					$('#materiais'+idAtend).append(linha);
 					
 					$('#modalmaterial').hide();
 			 		
-			 		});
+			 		}).fail(function(error) {
+				 		showErrorMsg("Material","Erro ao adicionar material");
+				 	});
 		
 		
 		
 		
 	}
+	
+	window.prepararFormEnviarPagamento = function(idAtend){
+		$('#enviarPagamento')[0].reset()
+		$('#enviarPagamentoId').val(idAtend);
+		$('#modalenviarPagamento').show();
+	};
 	
 	window.prepararFormUploadFoto = function(idAtend){
 		$('#uploadFotoId').val(idAtend);
@@ -92,11 +130,14 @@ $(document).ready(function(){
 				 $('#encaminhar').serialize(), 
 				 function(data) {  
 			 		var idAtend = $('#encaminharId').val();
+			 		showSuccessMsg(idAtend,'Atendimento encaminhado com sucesso.');
 			 		$('#modalEncaminhar').hide();
 			 		$('#nomefuncionario'+idAtend).html(nomeTecnico);
 			 		trocaStatus("com o tecnico","label label-com_o_tecnico",idAtend);
-			 		$('#validarSenhaBtn'+idAtend).show();
-			 		});
+			 		prepararActions(idAtend,'com_o_tecnico');
+			 	 }).fail(function(error) {
+			 		showErrorMsg("Encaminhar","Erro ao encaminhar atendimento");
+			 	 });
 	};
 	
 	window.prepararFormEncaminhar = function(idAtend){
@@ -111,11 +152,13 @@ $(document).ready(function(){
 				 $('#validarSenha').serialize(), 
 				 function(data) {  
 			 		var idAtend = $('#validarSenhaId').val();
+			 		showSuccessMsg(idAtend,'Senha validada com sucesso.');
 			 		$('#modalValidar').hide();
 			 		trocaStatus("senha validada","label label-senha_validada",idAtend);
-			 		$('#validarSenhaBtn'+idAtend).hide();
-			 		$('#encaminharBtn'+idAtend).hide();
-			 		});
+			 		prepararActions(idAtend,'senha_validada');
+			 	}).fail(function(error) {
+			 		showErrorMsg("Validar","Erro ao validar senha");
+			 	});;
 	};
 	
 	window.prepararFormHistorico = function(idAtend){
@@ -128,9 +171,17 @@ $(document).ready(function(){
 		 $.post(server + 'historicoAtendimento/save',
 				 $('#historico').serialize(), 
 				 function(data) {  
-			 		var idAtend = $('#historicoId').val();
-			 		$('#modalHistorico').hide();
-			 		$('#historicoPlace'+idAtend).append(data);
+			 		var d,linha, idAtend = $('#historicoId').val();
+			 			showSuccessMsg(idAtend,'Hist&oacute;rico adicionado com sucesso.');
+			 			$('#modalHistorico').hide();
+			 			
+			 			d=new Date(data.dataHora);
+			 			dataStr = d.getDate() + '/' + (d.getMonth()+1) + '/' + d.getFullYear() + ' ' + d.getHours() + ':'+ d.getMinutes()
+			 		
+			 			linha = '<tr><td>'+dataStr+'</td><td>'+data.analistaUSS+'</td><td>'+data.historico+'</td></tr>';
+			 		
+			 			$('#historicoPlace'+idAtend).append(linha);
+			 		
 			 		});
 	};
 	
@@ -145,8 +196,10 @@ $(document).ready(function(){
 				 $('#fechamento').serialize(), 
 				 function(data) {  
 			 		var idAtend = $('#fechamentoId').val();
+			 		showSuccessMsg(idAtend,'Atendimento fechado com sucesso.');
 			 		$('#modalfechamento').hide();
 			 		trocaStatus("fechada","label label-fechada",idAtend);
+			 		prepararActions(idAtend,'fechada');
 			 		
 			 		});
 	};
@@ -160,9 +213,18 @@ $(document).ready(function(){
 	};
 	
 	
+	showSuccessMsg=function(idAtend,msg){
+		$('#msgTxt'+idAtend).html(msg);
+		$('#alertSuccess'+idAtend).show();
+		window.setTimeout(function(){$('#alertSuccess'+idAtend).hide();},1000*5);
+		
+	}
 	
-	
-	
+	showErrorMsg=function(action,msg){
+		$('#msgError'+action).html(msg);
+		$('#error'+action).show();
+		window.setTimeout(function(){$('#error'+action).hide();},1000*5);
+	}
 	
 	
 });

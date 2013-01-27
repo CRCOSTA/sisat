@@ -7,7 +7,12 @@
 		<h5>Encaminhar atendimento</h5>
 	</div>
 	<div class="modal-body">
-	  
+	  		<div id="errorEncaminhar" class="alert alert-error alert-block" style="display:none">
+				<a class="close" data-dismiss="alert" href="#">×</a>
+				<h4 class="alert-heading">Erro!</h4>
+				<span id="msgErrorEncaminhar"></span>
+			</div>
+												
            	<g:hiddenField name="id" id="encaminharId" />
            	<div class="control-group">
 				<label class="control-label">Funcion&aacute;rio</label>

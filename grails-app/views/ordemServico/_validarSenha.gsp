@@ -10,6 +10,11 @@
 		<h5>Validar senha</h5>
 	</div>
 	<div class="modal-body">
+			<div id="errorValidar" class="alert alert-error alert-block" style="display:none">
+				<a class="close" data-dismiss="alert" href="#">×</a>
+				<h4 class="alert-heading">Erro!</h4>
+				<span id="msgErrorValidar"></span>
+			</div>
 	  
            	<g:hiddenField name="id" id="validarSenhaId" />
            	<div class="control-group">

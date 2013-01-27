@@ -128,13 +128,19 @@
                    
 				                    <tr class="gradeA">
 									    <td class="taskStatus"><span id="status${ordemServicoInstance.id}" class="label label-${ordemServicoInstance.cssStatusColor}">${fieldValue(bean: ordemServicoInstance, field: "status")}</span></td>
-			                            <td><g:link action="show" id="${ordemServicoInstance.id}">${fieldValue(bean: ordemServicoInstance, field: "numero")}/${fieldValue(bean: ordemServicoInstance, field: "barra")}</g:link></td>
+			                            <td id="osNumeroPlace${ordemServicoInstance.id}">
+			                            
+			                            <g:link action="show" id="${ordemServicoInstance.id}">${fieldValue(bean: ordemServicoInstance, field: "numero")}/${fieldValue(bean: ordemServicoInstance, field: "barra")}</g:link>
+			                            
+			                            <g:if test="${ordemServicoInstance.recebida}"><i class="icon-flag"></i></g:if>
+			                            
+			                            </td>
 			                            <td><g:formatDate date="${ordemServicoInstance?.dataAtendimento}" format="dd/MM/yyyy" /> de ${fieldValue(bean: ordemServicoInstance, field: "previaInicial")} até ${fieldValue(bean: ordemServicoInstance, field: "previaFinal")}</td>
 			                            <td>${fieldValue(bean: ordemServicoInstance, field: "modalidade")}</td>
 			                            <td>${fieldValue(bean: ordemServicoInstance, field: "seguradora")}</td>
 			                            <td>${fieldValue(bean: ordemServicoInstance, field: "segurado")} </td>
 			                            <td id="nomefuncionario${ordemServicoInstance.id}">${fieldValue(bean: ordemServicoInstance, field: "funcionario")}</td>
-			                            <td>1ª Visita
+			                            <td>${fieldValue(bean: ordemServicoInstance, field: "evento")} 
 			                            
 			                            	<div id="myModal${ordemServicoInstance.id}" class="modal hide">
 												<div class="modal-header">
@@ -143,92 +149,63 @@
 													<span id="modalstatus${ordemServicoInstance.id}" class="label label-${ordemServicoInstance.cssStatusColor}">${fieldValue(bean: ordemServicoInstance, field: "status")}</span></h5>
 												</div>
 												<div class="modal-body">
+												
+												
+												<div id="alertSuccess${ordemServicoInstance.id}" class="alert alert-success alert-block" style="display:none">
+													<a class="close" data-dismiss="alert" href="#">×</a>
+													<h4 class="alert-heading">Sucesso!</h4>
+													<span id="msgTxt${ordemServicoInstance.id}"></span>
+												</div>
+												
+												
 												<h5>Endere&ccedil;o:</h5>
 												<p>${fieldValue(bean: ordemServicoInstance, field: "endereco")}<br>
 												${fieldValue(bean: ordemServicoInstance, field: "referencia")} <br>
 												${fieldValue(bean: ordemServicoInstance, field: "cidade")} <br> 
 												${fieldValue(bean: ordemServicoInstance, field: "bairro")}
-												<h5>Hist&oacute;rico:</h5>
-												<span id="historicoPlace${ordemServicoInstance.id}">
-												${ordemServicoInstance.historicos}
-												</span>			
+														
 												
-												<h5>Materiais:</h5>
-												<div>
-												<table class="table table-bordered" id="materiais${ordemServicoInstance.id}">
-												<thead>
-												<tr>
-													<th>
-														 
-													</th>
-													<th>
-														 Descri&ccedil;&otilde;o
-													</th>
-													<th>
-														 Quantidade
-													</th>
-												</tr>
-												</thead>
+												<g:render template="historicosTemplate" bean="${ordemServicoInstance}" var="ordemServicoInstance" />
 												
-												<tbody>
-												<g:each in="${ordemServicoInstance?.materiais}" status="j" var="material">
-			    					
-													<tr>
-														<td>
-															${material.descricao}
-														</td>
-														<td>
-															 ${material.material.descricao}
-														</td>
-														<td>
-		 													${material.quantidade*(-1)}
-		 												</td>
-													</tr>
-												</g:each>
-												</tbody>
-												</table>
-												</div>										
+												<g:render template="materiaisTemplate" bean="${ordemServicoInstance}" var="ordemServicoInstance" />
+																			
 
 												</div>
 												<div class="modal-footer">
 													<g:if test="${!session?.user?.analista}">
-														<div class="btn-group" style="width: auto;">
+														<div class="btn-group" style="width: auto;" id="actionGroup${ordemServicoInstance.id}">
 															
 															<button id="encaminharBtn${ordemServicoInstance.id}"
-															${(ordemServicoInstance.status=='aberta' || ordemServicoInstance.status=='com o tecnico')?"":"style='display:none;'"} 
-															onclick="prepararFormEncaminhar('${ordemServicoInstance.id}')"  class="btn btn-primary btn-large tip-top"
-															data-original-title="Encaminhar para o t&eacute;cnico"><i class="icon-user icon-white"></i></button>
+															onclick="prepararFormEncaminhar('${ordemServicoInstance.id}')"  
+															class="btn btn-primary btn-large tip-top aberta com_o_tecnico"
+															data-original-title="Encaminhar para o t&eacute;cnico" ><i class="icon-user icon-white"></i></button>
 															
-															<button class="btn btn-primary btn-large tip-top" id="validarSenhaBtn${ordemServicoInstance.id}"
-															${ordemServicoInstance.status=='com o tecnico'?"":"style='display:none;'"} 
+															<button class="btn btn-primary btn-large tip-top aberta com_o_tecnico" id="validarSenhaBtn${ordemServicoInstance.id}"
 															onclick="prepararFormValidarSenha('${ordemServicoInstance.id}');" 
 															data-original-title="Validar senha"><i class="icon-lock icon-white"></i></button>
 															
 															<button onclick="prepararFormHistorico('${ordemServicoInstance.id}');"  
-															class="btn btn-primary btn-large tip-top" data-original-title="Incluir hist&oacute;rico"><i class="icon-comment icon-white"></i></button>
+															class="btn btn-primary btn-large tip-top aberta com_o_tecnico senha_validada fechada aguardando_pagamento" data-original-title="Incluir hist&oacute;rico"><i class="icon-comment icon-white"></i></button>
 															
-															
-															<g:if test="${ordemServicoInstance.status!='cancelado' && ordemServicoInstance.status!='aberta' && ordemServicoInstance.status!='com o tecnico'}">
-																<button onclick="prepararFormFechamento('${ordemServicoInstance.id}');" 
-																class="btn btn-primary btn-large tip-top" data-original-title="Finalizar atendimento"><i class="icon-ok icon-white"></i></button>
-															</g:if>
-															<g:if test="${ordemServicoInstance.status!='cancelado' && ordemServicoInstance.status!='aberta' && ordemServicoInstance.status!='com o tecnico'}">
-																<button  onclick="prepararFormUploadFoto('${ordemServicoInstance.id}');" 
-																class="btn btn-primary btn-large tip-top" data-original-title="Incluir fotos"><i class="icon-camera icon-white"></i></button>
-															</g:if>
+															<button  onclick="prepararFormUploadFoto('${ordemServicoInstance.id}');" 
+															class="btn btn-primary btn-large tip-top senha_validada fechada aguardando_pagamento" data-original-title="Incluir fotos"><i class="icon-camera icon-white"></i></button>
 															
 															<button onclick="prepararFormMaterial('${ordemServicoInstance.id}');" 
-															 class="btn btn-primary btn-large tip-top" data-original-title="Incluir material"><i class="icon-briefcase icon-white"></i></button>
+															 class="btn btn-primary btn-large tip-top aberta com_o_tecnico senha_validada fechada" data-original-title="Incluir material"><i class="icon-briefcase icon-white"></i></button>
 															 
+															<button onclick="receberOrdem('${ordemServicoInstance.id}');" 
+															class="btn btn-primary btn-large tip-top fechada" data-original-title="Recebimento de checklist"><i class="icon-inbox icon-white"></i></button>
+															
+															<button onclick="prepararFormEnviarPagamento('${ordemServicoInstance.id}');" 
+															class="btn btn-primary btn-large tip-top fechada" data-original-title="Enviar para pagamento"><i class="icon-share icon-white"></i></button>
+
+															<button onclick="prepararFormFechamento('${ordemServicoInstance.id}');" 
+															class="btn btn-primary btn-large tip-top senha_validada" data-original-title="Finalizar atendimento"><i class="icon-ok icon-white"></i></button>
+
 															<g:if test="${session?.user?.admin}">
 																<g:link action="edit" id="${ordemServicoInstance.id}" class="btn btn-primary btn-large tip-top" data-original-title="Editar"><i class="icon-edit icon-white"></i></g:link>
 															</g:if>
-															<g:if test="${!ordemServicoInstance?.recebida}">
-																<button class="btn btn-primary btn-large tip-top" data-original-title="Recebimento de checklist"><i class="icon-inbox icon-white"></i></button>
-															</g:if>
-															<g:if test="${ordemServicoInstance?.fechada || ordemServicoInstance?.visitaPerdida}">
-																<button class="btn btn-primary btn-large tip-top" data-original-title="Enviar para pagamento"><i class="icon-share icon-white"></i></button>
-															</g:if>
+
 															
 														</div>
 													</g:if>
@@ -239,7 +216,8 @@
 											
 			                            </td>
 			                         	<td class="taskStatus">
-			                       		  	<a href="#myModal${ordemServicoInstance.id}" data-toggle="modal"  data-original-title="Histórico"><i class="icon-zoom-in"></i></a>
+			                         	<input type="hidden" id="statusAtendimento${ordemServicoInstance.id}" value="${ordemServicoInstance.cssStatusColor}">
+			                       		  	<a href="#myModal${ordemServicoInstance.id}" onclick="prepararActions(${ordemServicoInstance.id},$('#statusAtendimento${ordemServicoInstance.id}').val())" data-toggle="modal"  data-original-title="Dados do atendimento"><i class="icon-zoom-in"></i></a>
 										</td>
 										
 			                        </tr>
@@ -281,6 +259,7 @@
   			  <g:render template="fechamento"/>
   			  <g:render template="uploadFoto"/>
   			  <g:render template="movimentaMaterial"/>
+  			  <g:render template="enviarPagamento"/>
     </body>
 </html>
 

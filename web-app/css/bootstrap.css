@@ -5898,6 +5898,11 @@ a.badge:hover {
 *alteracoes para o SISAT
 */
 
+.label-aberta,
+.badge-label-aberta{
+	background-color:red;
+}
+
 .label-senha_validada,
 .badge-senha_validada {
   background-color: cornflowerBlue;

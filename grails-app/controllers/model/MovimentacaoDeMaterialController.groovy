@@ -75,6 +75,8 @@ class MovimentacaoDeMaterialController extends BaseController{
 				ordemServicoInstance.addToMateriais(movimentacaoDeMaterialInstance);
 				ordemServicoInstance.save();
 				
+				gravaLog(ordemServicoInstance, LogOrdemServico.CANCELAMENTO)
+				
 				render "ok"
 			}
 		}

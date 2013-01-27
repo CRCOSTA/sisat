@@ -91,6 +91,10 @@ class OrdemServico {
 
 	static hasMany = [historicoAtendimento:HistoricoAtendimento,imagens:Imagem,logOpercao:LogOrdemServico,materiais:MovimentacaoDeMaterial]
 	static transients = ['historicos','cssStatusColor','logs','fechada','valorTotal']
+	
+	static mapping = {
+		historicoAtendimento sort:'dataHora',order:'asc'
+	}
 	String toString(){
 		return ""+numero;
 	}

@@ -12,6 +12,7 @@ class LogOrdemServico {
     static final String ALTERADO        = "alterado"
     static final String IMAGEM          = "imagem cadastrada"
 	static final String LIQUIDACAO      = "Ordem de servico liquidada"
+	static final String MATERIAL        = "inclusao de material"
 	
     static belongsTo = [ordemServico:OrdemServico]
     String operacao

@@ -19,8 +19,6 @@ $(document).ready(function(){
 			segurado:{required:true},
 			endereco:{required:true},
 			cidade:{required:true},
-			dataAcionamento:{required:true,date:true},
-			dataAtendimento:{required:true,date:true},
 			descServico:{required:true},
 			previaInicial:{required:true},
 			previaFinal:{required:true},

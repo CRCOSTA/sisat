@@ -1,5 +1,7 @@
 package model
 
+import grails.converters.JSON
+
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 
@@ -46,7 +48,7 @@ class HistoricoAtendimentoController extends BaseController{
             gravaLog(ordem, LogOrdemServico.HISTORICO)
 			DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 			
-            render "<p><strong>"+ df.format(historicoAtendimentoInstance.dataHora)+"</strong>-" + historicoAtendimentoInstance.analistaUSS +"-" + historicoAtendimentoInstance.historico + "</p>"
+            render historicoAtendimentoInstance as JSON
         }
         else {
             render "erro ao cadastrar historico"

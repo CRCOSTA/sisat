@@ -142,13 +142,10 @@ class OrdemServicoController extends BaseController{
             gravaLog(ordemServicoInstance, LogOrdemServico.RECEBIMENTO)
             
             if (!ordemServicoInstance.hasErrors() && ordemServicoInstance.save()) {
-                flash.message = "ordemServico.updated"
-                flash.args = [params.id]
-                flash.defaultMessage = "OrdemServico ${params.id} updated"
-                redirect(action: "filtros")
+                render "ok";
             }
             else {
-                 redirect(action: "filtros")
+                render(status: 503, text: "erro ao receber checklist")
             }
         }
     }
@@ -207,7 +204,7 @@ class OrdemServicoController extends BaseController{
                 if (ordemServicoInstance.version > version) {
 
                     ordemServicoInstance.errors.rejectValue("version", "ordemServico.optimistic.locking.failure", "Another user has updated this OrdemServico while you were editing")
-                    render(view: "edit", model: [ordemServicoInstance: ordemServicoInstance])
+                    render(status: 503, text: "Another user has updated this OrdemServico while you were editing")
                     return
                 }
             }
@@ -231,20 +228,14 @@ class OrdemServicoController extends BaseController{
 
             if (!ordemServicoInstance.hasErrors() && ordemServicoInstance.save()) {
                 gravaLog(ordemServicoInstance, LogOrdemServico.FECHAMENTO)
-                flash.message = "ordemServico.updated"
-                flash.args = [params.id]
-                flash.defaultMessage = "OrdemServico ${params.id} updated"
-                redirect(action: "filtros")
+                render "ok"
             }
             else {
-                render(view: "list")
+                render(status: 503, text:"erro ao fechar atendimento")
             }
         }
         else {
-            flash.message = "ordemServico.not.found"
-            flash.args = [params.id]
-            flash.defaultMessage = "OrdemServico not found with id ${params.id}"
-            redirect(action: "edit", id: params.id)
+            render(status: 503, text: "OrdemServico not found with id ${params.id}")
         }
     }
 
@@ -256,8 +247,9 @@ class OrdemServicoController extends BaseController{
             if (params.version) {
                 def version = params.version.toLong()
                 if (ordemServicoInstance.version > version) {
-                    ordemServicoInstance.errors.rejectValue("version", "ordemServico.optimistic.locking.failure", "Another user has updated this OrdemServico while you were editing")
-                    render "ordemServico.optimistic.locking.failure", "Another user has updated this OrdemServico while you were editing"
+					// render with status code
+					render(status: 503, text: "Another user has updated this OrdemServico while you were editing")
+					return;
                 }
             }
             ordemServicoInstance.funcionario = Funcionario.get(params.funcionario.id)
@@ -266,27 +258,33 @@ class OrdemServicoController extends BaseController{
                 gravaLog(ordemServicoInstance, LogOrdemServico.ENCAMINHAMENTO)
                 render "ok"
             }else{
-				render "erro ao encaminhar par tecnico "+params.id
+				render(status: 503, text: "erro ao encaminhar par tecnico "+params.id)
             }
 
         }
         else {
-			render "ordem de servico nao encontrada- encaminhar para tecnico"+ params.id
+			render(status: 503, text: "ordem de servico nao encontrada- encaminhar para tecnico"+ params.id)
+			
         }
     }
 
 	
 	def enviarPagamento ={
 		def ordemServicoInstance = OrdemServico.get(params.id)
-		if (!ordemServicoInstance) {
-		   flash.message = "ordemServico.not.found"
-		   flash.args = [params.id]
-		   flash.defaultMessage = "OrdemServico not found with id ${params.id}"
-		   redirect(action: "list")
-	   }
-	   else {
-		   return [ordemServicoInstance: ordemServicoInstance]
-	   }
+        if (ordemServicoInstance) {
+			DateFormat df = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+			
+			params.dataPagamento = df.parse(params.dataPagamento)
+			
+            ordemServicoInstance.properties = params
+            if (!ordemServicoInstance.hasErrors() && ordemServicoInstance.save()) {
+                gravaLog(ordemServicoInstance, LogOrdemServico.ALTERADO)
+               	render "ok"
+            }
+            else {
+               render(status: 503, text: "erro ao enviar para pagamento");
+            }
+        }
    }
 	
     def validarSenha={
@@ -296,8 +294,7 @@ class OrdemServicoController extends BaseController{
                 def version = params.version.toLong()
                 if (ordemServicoInstance.version > version) {
 
-                    ordemServicoInstance.errors.rejectValue("version", "ordemServico.optimistic.locking.failure", "Another user has updated this OrdemServico while you were editing")
-                    render "Another user has updated this OrdemServico while you were editing"
+                    render(status: 503, text:  "Another user has updated this OrdemServico while you were editing");
                     return
                 }
             }
@@ -320,7 +317,7 @@ class OrdemServicoController extends BaseController{
 				if(session?.user?.tecnico){
 					redirect( action: "listByTecnico")
 				}
-                render "Erro ao validar senha"
+                render(status: 503, text:  "Erro ao validar senha");
             }
         }
         else {
@@ -330,7 +327,7 @@ class OrdemServicoController extends BaseController{
 			if(session?.user?.tecnico){
 				redirect( action: "listByTecnico")
 			}
-           render "Ordem de servico nao encontrada"
+           render(status: 503, text:  "Ordem de servico nao encontrada");
         }
     }
 
