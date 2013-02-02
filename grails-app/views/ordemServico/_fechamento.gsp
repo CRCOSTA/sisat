@@ -10,6 +10,12 @@
 	  
            	<g:hiddenField name="id" id="fechamentoId" />
            	
+				           	<div id="errorFechamento" class="alert alert-error alert-block" style="display:none">
+								<a class="close" data-dismiss="alert" href="#">×</a>
+								<h4 class="alert-heading">Erro!</h4>
+								<span id="msgErrorFechamento"></span>
+							</div>
+							
 							<div class="control-group">
 	                             <label class="control-label">Data/Hora Sa&iacute;da </label>
 	                             <div class="controls">
@@ -70,7 +76,7 @@
            	
     </div>
 	<div class="modal-footer">
-		<input type="button" class="btn btn-primary" value="Salvar" onclick="fecharAtendimento();" />
+		<input type="button" class="btn btn-primary" value="Salvar" onclick="server.fecharAtendimento();" />
 		<input type="button" class="btn" onclick="$('#modalfechamento').hide();" value="Fechar"/>
 	</div>
 </form>	

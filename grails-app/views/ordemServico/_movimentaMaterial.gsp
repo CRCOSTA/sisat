@@ -22,7 +22,7 @@
 			
 	    	<g:textField style="width:40px"  name="quantidade"  id="quantidade" placeholder="Qtd" />
 	    	
-	    	<button type="button" onclick="addMaterial($('#idAtend').val());" class="btn btn-success" data-original-title="Adicionar material"><i class="icon-plus icon-white"></i></button>
+	    	<button type="button" onclick="server.addMaterial($('#idAtend').val());" class="btn btn-success" data-original-title="Adicionar material"><i class="icon-plus icon-white"></i></button>
 			
  				
     </div>

@@ -132,7 +132,8 @@
 			                            
 			                            <g:link action="show" id="${ordemServicoInstance.id}">${fieldValue(bean: ordemServicoInstance, field: "numero")}/${fieldValue(bean: ordemServicoInstance, field: "barra")}</g:link>
 			                            
-			                            <g:if test="${ordemServicoInstance.recebida}"><i class="icon-flag"></i></g:if>
+			                            <g:if test="${ordemServicoInstance.recebida}"><i data-original-title="Checklist entregue" class="tip-top icon-flag"></i></g:if>
+			                            <g:if test="${ordemServicoInstance.visitaPerdida}"><i data-original-title="Visita perdida" class="tip-top icon-ban-circle"></i><span style="display:none;">visita perdida</span></g:if>
 			                            
 			                            </td>
 			                            <td><g:formatDate date="${ordemServicoInstance?.dataAtendimento}" format="dd/MM/yyyy" /> de ${fieldValue(bean: ordemServicoInstance, field: "previaInicial")} até ${fieldValue(bean: ordemServicoInstance, field: "previaFinal")}</td>
@@ -185,19 +186,19 @@
 															data-original-title="Validar senha"><i class="icon-lock icon-white"></i></button>
 															
 															<button onclick="prepararFormHistorico('${ordemServicoInstance.id}');"  
-															class="btn btn-primary btn-large tip-top aberta com_o_tecnico senha_validada fechada aguardando_pagamento" data-original-title="Incluir hist&oacute;rico"><i class="icon-comment icon-white"></i></button>
+															class="btn btn-primary btn-large tip-top aberta com_o_tecnico senha_validada fechada aguardando_pagamento visita_perdida" data-original-title="Incluir hist&oacute;rico"><i class="icon-comment icon-white"></i></button>
 															
 															<button  onclick="prepararFormUploadFoto('${ordemServicoInstance.id}');" 
-															class="btn btn-primary btn-large tip-top senha_validada fechada aguardando_pagamento" data-original-title="Incluir fotos"><i class="icon-camera icon-white"></i></button>
+															class="btn btn-primary btn-large tip-top senha_validada fechada aguardando_pagamento visita_perdida" data-original-title="Incluir fotos"><i class="icon-camera icon-white"></i></button>
 															
-															<button onclick="prepararFormMaterial('${ordemServicoInstance.id}');" 
+															<button onclick="server.prepararFormMaterial('${ordemServicoInstance.id}');" 
 															 class="btn btn-primary btn-large tip-top aberta com_o_tecnico senha_validada fechada" data-original-title="Incluir material"><i class="icon-briefcase icon-white"></i></button>
 															 
-															<button onclick="receberOrdem('${ordemServicoInstance.id}');" 
+															<button onclick="server.receberOrdem('${ordemServicoInstance.id}');" 
 															class="btn btn-primary btn-large tip-top fechada" data-original-title="Recebimento de checklist"><i class="icon-inbox icon-white"></i></button>
 															
 															<button onclick="prepararFormEnviarPagamento('${ordemServicoInstance.id}');" 
-															class="btn btn-primary btn-large tip-top fechada" data-original-title="Enviar para pagamento"><i class="icon-share icon-white"></i></button>
+															class="btn btn-primary btn-large tip-top fechada visita_perdida" data-original-title="Enviar para pagamento"><i class="icon-share icon-white"></i></button>
 
 															<button onclick="prepararFormFechamento('${ordemServicoInstance.id}');" 
 															class="btn btn-primary btn-large tip-top senha_validada" data-original-title="Finalizar atendimento"><i class="icon-ok icon-white"></i></button>
@@ -250,6 +251,7 @@
              <g:javascript library="unicorn.tables" />
              <g:javascript library="jquery.uploadify-3.1" />
   			 <g:javascript library="sisat.ordemservico.filtros" />
+  			 <g:javascript library="sisat.ordemservico.server" />
   			 
   			 
   			 

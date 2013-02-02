@@ -22,7 +22,7 @@
 			</div>	
     </div>
 	<div class="modal-footer">
-		<input type="button" class="btn btn-primary" value="Encaminhar" onclick="encaminharParaTecnico('');" />
+		<input type="button" class="btn btn-primary" value="Encaminhar" onclick="server.encaminharParaTecnico();" />
 		<input type="button" class="btn" onclick="$('#modalEncaminhar').hide();" value="Fechar"/>
 	</div>
 </form>	

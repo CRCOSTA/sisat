@@ -38,7 +38,7 @@
 	                             <label class="control-label">Data do Lote </label>
 	                             <div class="controls">
 									<div class="input-append date" id="datepickerDataLote" data-date-format="dd/mm/yyyy">
-										<input type="text" name="dataPagmento" id="dataPagamento" class="span2" style="width:90px;" readonly />
+										<input type="text" name="dataPagamento" id="dataPagamento" class="span2" style="width:90px;" readonly />
 									    <span class="add-on"><i class="icon-th"></i></span>
 									</div>
 									
@@ -52,7 +52,7 @@
            	
     </div>
 	<div class="modal-footer">
-		<input type="button" class="btn btn-primary" value="Salvar" onclick="enviarPagamento();" />
+		<input type="button" class="btn btn-primary" value="Salvar" onclick="server.enviarPagamento();" />
 		<input type="button" class="btn" onclick="$('#modalenviarPagamento').hide();" value="Fechar"/>
 	</div>
 </form>	

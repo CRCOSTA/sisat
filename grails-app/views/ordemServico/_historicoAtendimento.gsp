@@ -7,6 +7,12 @@
 		<h5>Hist&oacute;rico</h5>
 	</div>
 	<div class="modal-body">
+	
+			<div id="errorHistorico" class="alert alert-error alert-block" style="display:none">
+				<a class="close" data-dismiss="alert" href="#">×</a>
+				<h4 class="alert-heading">Erro!</h4>
+				<span id="msgErrorHistorico"></span>
+			</div>
 	  
            	<g:hiddenField name="ordemServico.id" id="historicoId" />
            	<g:hiddenField name="cancelamento" value="false" />
@@ -26,7 +32,7 @@
 
     </div>
 	<div class="modal-footer">
-		<input type="button" class="btn btn-primary" value="Salvar" onclick="window.gravarHistorico();" />
+		<input type="button" class="btn btn-primary" value="Salvar" onclick="server.gravarHistorico();" />
 		<input type="button" class="btn" onclick="$('#modalHistorico').hide();" value="Fechar"/>
 	</div>
 </form>	

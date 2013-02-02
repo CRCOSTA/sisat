@@ -25,7 +25,7 @@
 			</div>	
     </div>
 	<div class="modal-footer">
-		<input type="button" class="btn btn-primary" value="Validar" onclick="window.validarSenha();" />
+		<input type="button" class="btn btn-primary" value="Validar" onclick="server.validarSenha();" />
 		<input type="button"  class="btn" onclick="$('#modalValidar').hide();" value="Fechar"/>
 	</div>
 </form>	

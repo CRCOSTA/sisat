@@ -272,7 +272,7 @@ class OrdemServicoController extends BaseController{
 	def enviarPagamento ={
 		def ordemServicoInstance = OrdemServico.get(params.id)
         if (ordemServicoInstance) {
-			DateFormat df = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+			DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 			
 			params.dataPagamento = df.parse(params.dataPagamento)
 			
@@ -422,8 +422,16 @@ class OrdemServicoController extends BaseController{
 			def empresa = Empresa.get(params.empresa)
 		
 			def lote = OrdemServico.findAllByEmpresaAndDataPagamento(empresa,params.dataPagamento)
-		
-			[lote:lote]
+
+			def valorTotalLote = 0
+			lote.each {
+				
+				def domain = (OrdemServico)it;
+				valorTotalLote = valorTotalLote + domain?.valorMDO  + domain?.valorMaterial + domain?.valorDeslocamento
+				
+				}
+					
+			[lote:lote,valorTotalLote:valorTotalLote]
 		}
 		
 	}
@@ -435,8 +443,13 @@ class OrdemServicoController extends BaseController{
 	def lotePagamentoExport={
 		if(params.empresa!=null){
 			def empresa = Empresa.get(params.empresa)
+			
+			DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+			
+			params.dataPagamento = df.parse(  params.dataPagamento )
 		
 			def lote = OrdemServico.findAllByEmpresaAndDataPagamento(empresa,params.dataPagamento)
+			
 			
 			response.contentType = grailsApplication.config.grails.mime.types[params.format]
 			response.setHeader("Content-disposition", "attachment; filename=loteAtendimentos.${params.extension}")
@@ -465,6 +478,8 @@ class OrdemServicoController extends BaseController{
 			def empresa = Empresa.get(params.empresa)
 		
 			def lote = OrdemServico.findAllByEmpresaAndDataPagamento(empresa,params.dataPagamento)
+			
+			println lote
 		
 			lote.each {
 				def ordemServicoInstance = (OrdemServico)it

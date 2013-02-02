@@ -40,7 +40,7 @@
 					<ul>
 						<li><g:link action="filtros" controller="ordemServico">Pesquisar Atendimentos</g:link></li>
 						<li><g:link action="create" controller="ordemServico">Novo Atendimento</g:link></li>
-						<li><g:link action="ordemServico" controller="lotePagamento">Lotes de Pagamento</g:link></li>
+						<li><g:link action="lotePagamento" controller="ordemServico">Lotes de Pagamento</g:link></li>
 					</ul>
 				</li>
 				<li class="submenu">

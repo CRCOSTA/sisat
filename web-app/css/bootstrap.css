@@ -5898,6 +5898,13 @@ a.badge:hover {
 *alteracoes para o SISAT
 */
 
+
+.label-aguardando_pagamento,
+.badge-label-aguardando_pagamento{
+	background-color:#ff6600;
+}
+
+
 .label-aberta,
 .badge-label-aberta{
 	background-color:red;
