@@ -159,11 +159,10 @@
 												</div>
 												
 												
-												<h5>Endere&ccedil;o:</h5>
-												<p>${fieldValue(bean: ordemServicoInstance, field: "endereco")}<br>
-												${fieldValue(bean: ordemServicoInstance, field: "referencia")} <br>
-												${fieldValue(bean: ordemServicoInstance, field: "cidade")} <br> 
-												${fieldValue(bean: ordemServicoInstance, field: "bairro")}
+												<p><strong>Endere&ccedil;o:</strong>&nbsp;${fieldValue(bean: ordemServicoInstance, field: "endereco")}</p>
+												<p><strong>Refer&ecirc;ncia:</strong>&nbsp;${fieldValue(bean: ordemServicoInstance, field: "referencia")} </p>
+												<p><strong>Cidade:</strong>&nbsp;${fieldValue(bean: ordemServicoInstance, field: "cidade")} </p>
+												<p><strong>Bairro:</strong>&nbsp;${fieldValue(bean: ordemServicoInstance, field: "bairro")}</p>
 														
 												
 												<g:render template="historicosTemplate" bean="${ordemServicoInstance}" var="ordemServicoInstance" />
@@ -241,6 +240,14 @@
 		</div>
 	</div>
 
+ 			  <g:render template="encaminhar" />
+  			  <g:render template="validarSenha"  />
+  			  <g:render template="historicoAtendimento"/>
+  			  <g:render template="fechamento"/>
+  			  <g:render template="uploadFoto"/>
+  			  <g:render template="movimentaMaterial"/>
+  			  <g:render template="enviarPagamento"/>
+
              <g:javascript library="bootstrap-datepicker" />
              <g:javascript library="locales/bootstrap-datepicker.pt-BR" />
 			 <g:javascript library="bootstrap-timepicker" />
@@ -250,18 +257,14 @@
              <g:javascript library="jquery.dataTables" />      
              <g:javascript library="unicorn.tables" />
              <g:javascript library="jquery.uploadify-3.1" />
+             <g:javascript library="jquery.validate" />
+             <g:javascript library="sisat.ordemservico.filtros.validation" />
   			 <g:javascript library="sisat.ordemservico.filtros" />
   			 <g:javascript library="sisat.ordemservico.server" />
   			 
   			 
   			 
-  			  <g:render template="encaminhar" />
-  			  <g:render template="validarSenha"  />
-  			  <g:render template="historicoAtendimento"/>
-  			  <g:render template="fechamento"/>
-  			  <g:render template="uploadFoto"/>
-  			  <g:render template="movimentaMaterial"/>
-  			  <g:render template="enviarPagamento"/>
+  			 
     </body>
 </html>
 

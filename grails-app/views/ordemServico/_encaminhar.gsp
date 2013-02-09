@@ -1,6 +1,6 @@
 <div id="modalEncaminhar" class="modal hide">
  
-<form class="form-horizontal" name="myForm" id="encaminhar">              
+<form class="form-horizontal" name="encaminhar" id="encaminhar">              
 	 
 	<div class="modal-header">
 		<button onclick="$('#modalEncaminhar').hide();" class="close" type="button">×</button>

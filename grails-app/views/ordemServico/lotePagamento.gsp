@@ -42,7 +42,7 @@
 					</div>
 					<div class="collapse in" id="collapseFiltros">
 						<div class="widget-content nopadding">
-							<g:form action="lotePagamento" name="formLotePagamento" method="post" class="form-horizontal">
+							<g:form action="lotePagamento" id="formLotePagamento" name="formLotePagamento" method="post" class="form-horizontal">
 
 								<div class="control-group">
 									<label class="control-label">Data Lote</label>

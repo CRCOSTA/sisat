@@ -1,6 +1,6 @@
 <div id="modalfechamento" class="modal hide">
  
-<form class="form-horizontal" name="myForm" id="fechamento">              
+<form class="form-horizontal" name="fechamento" id="fechamento">              
 	 
 	<div class="modal-header">
 		<button onclick="$('#modalfechamento').hide();" class="close" type="button">×</button>

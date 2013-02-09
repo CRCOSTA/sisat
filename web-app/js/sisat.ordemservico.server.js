@@ -1,6 +1,9 @@
 window.server={
 		serverPath:'http://localhost:8080/SISAT/',
 		enviarPagamento : function(){
+			
+			 if(!$('#enviarPagamento').valid()) return;
+			
 			 $.post(this.serverPath + 'ordemServico/enviarPagamento',
 					 $('#enviarPagamento').serialize(), 
 					 function(data) {
@@ -34,6 +37,9 @@ window.server={
 			
 		},
 		addMaterial : function(idAtend){
+			
+			if(!$('#materialForm').valid()) return;
+			
 			var quantidade=$('#quantidade').val()*(-1), descricao='Codigo da autorizacao -->' + Math.floor(Math.random()*101010),
 				dados= {id:idAtend,
 					tipo:'Saida',
@@ -60,6 +66,9 @@ window.server={
 		},
 		encaminharParaTecnico : function(){
 			var nomeTecnico=$('#funcionario :selected').text();
+			
+			if(!$('#encaminhar').valid()) return;
+			
 			 $.post(this.serverPath + 'ordemServico/encaminharParaTecnico',
 					 $('#encaminhar').serialize(), 
 					 function(data) {  
@@ -74,6 +83,9 @@ window.server={
 				 	 });
 		},
 		validarSenha : function(){
+			
+			if(!$('#validarSenha').valid()) return;
+			
 			 $.post(this.serverPath + 'ordemServico/validarSenha',
 					 $('#validarSenha').serialize(), 
 					 function(data) {  
@@ -87,7 +99,10 @@ window.server={
 				 	});
 		},
 		gravarHistorico : function(){
-			 $.post(this.serverPath + 'historicoAtendimento/save',
+			
+			if(!$('#historico').valid()) return;
+
+			$.post(this.serverPath + 'historicoAtendimento/save',
 					 $('#historico').serialize(), 
 					 function(data) {  
 				 		var d,linha, idAtend = $('#historicoId').val();
@@ -106,6 +121,9 @@ window.server={
 					 	});
 		},
 		fecharAtendimento : function(){
+			
+  			 if(!$('#fechamento').valid()) return;
+			
 			 $.post(this.serverPath + 'ordemServico/fecharAtendimento',
 					 $('#fechamento').serialize(), 
 					 function(data) {  

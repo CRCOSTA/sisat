@@ -1,6 +1,6 @@
 <div id="modalenviarPagamento" class="modal hide">
  
-<form class="form-horizontal" name="myForm" id="enviarPagamento">              
+<form class="form-horizontal" name="enviarPagamento" id="enviarPagamento">              
 	 
 	<div class="modal-header">
 		<button onclick="$('#modalenviarPagamento').hide();" class="close" type="button">×</button>
