@@ -25,7 +25,7 @@ class ImagemController extends BaseController{
 	def beforeInterceptor = {
 		if (!s3) {
 			
-			def getResourceAsStream = Thread.currentThread().contextClassLoader.getResourceAsStream("AwsCredentials.properties")
+			def getResourceAsStream = Thread.currentThread().contextClassLoader.getResourceAsStream("credentialsAws.properties")
 			awsCreds=new PropertiesCredentials(getResourceAsStream)
 			s3 = new AmazonS3Client(awsCreds);
 		}
@@ -74,8 +74,8 @@ class ImagemController extends BaseController{
 			File f = new  File(pathDir.trim()+'/temp_' + nomeImg );
 			imagefile.transferTo(f)
 			
-			createThumbnail(f,ordemServicoInstance.id,"thumb_"+nomeImg)
-			createPhoto(f,ordemServicoInstance.id,nomeImg)
+			createThumbnail(f,ordemServicoInstance.id,"thumb_"+nomeImg,session.siteConfig.bucketName)
+			createPhoto(f,ordemServicoInstance.id,nomeImg,session.siteConfig.bucketName)
 			
 			f.delete()
 
@@ -108,13 +108,13 @@ class ImagemController extends BaseController{
 					
                     File dir = new File(pathDir.trim());
 					
-					println dir.mkdir()
+				
 
                     File f = new  File(pathDir.trim()+'/temp_' + nomeImg );
                     imagefile.transferTo(f)
                     
-                    createThumbnail(f,ordemServicoInstance.id,"thumb_"+nomeImg)
-                    createPhoto(f,ordemServicoInstance.id,nomeImg)
+                    createThumbnail(f,ordemServicoInstance.id,"thumb_"+nomeImg,session.siteConfig.bucketName)
+                    createPhoto(f,ordemServicoInstance.id,nomeImg,session.siteConfig.bucketName)
                     
                     f.delete()
 
@@ -227,7 +227,7 @@ class ImagemController extends BaseController{
     }
 
 
-    public static void createPhoto(File file,long ordemId,String photoname) throws IOException
+    public static void createPhoto(File file,long ordemId,String photoname,String bucketName) throws IOException
     {
 
 
@@ -249,13 +249,12 @@ class ImagemController extends BaseController{
          g.dispose();
 		 def temp = new File(file.getParent()+"/"+photoname)
          ImageIO.write(dimg, "jpg", temp);
-		
-		 s3.putObject(new PutObjectRequest(Imagem.BUCKET_NAME,ordemId+"/"+photoname, temp))
+		 s3.putObject(new PutObjectRequest(bucketName,ordemId+"/"+photoname, temp))
 		 
 		temp.delete()
     }
 
-    public static void createThumbnail(File file,long ordemId,String thumbname) throws IOException
+    public static void createThumbnail(File file,long ordemId,String thumbname,String bucketName) throws IOException
     {
 
 
@@ -279,7 +278,7 @@ class ImagemController extends BaseController{
 		 def temp = new File(file.getParent()+"/"+thumbname)
 		 ImageIO.write(dimg, "jpg", temp);
 		 
-		 s3.putObject(new PutObjectRequest(Imagem.BUCKET_NAME,ordemId+"/"+thumbname, temp))
+		 s3.putObject(new PutObjectRequest(bucketName,ordemId+"/"+thumbname, temp))
 		 
 		 temp.delete()
 
@@ -306,7 +305,7 @@ class ImagemController extends BaseController{
 				println "verificando foto - "+pOrig;
 				if(file.exists()){
 					println "movendo foto - "+img.ordemServico.id + "/" +img.nomeImagem;
-					s3.putObject(new PutObjectRequest(Imagem.BUCKET_NAME,img.ordemServico.id + "/" +img.nomeImagem , file))
+					s3.putObject(new PutObjectRequest(session.siteConfig.bucketName,img.ordemServico.id + "/" +img.nomeImagem , file))
 					img.imgMig=true
 					img.save(flush:true)
 				}
@@ -315,7 +314,7 @@ class ImagemController extends BaseController{
 				println "verificando foto - "+pOrigT;
 				if(file.exists()){
 					println "enviando foto thumb -"+img.ordemServico.id + "/thumb_" +img.nomeImagem
-					s3.putObject(new PutObjectRequest(Imagem.BUCKET_NAME,img.ordemServico.id + "/thumb_" +img.nomeImagem , file2))
+					s3.putObject(new PutObjectRequest(session.siteConfig.bucketName,img.ordemServico.id + "/thumb_" +img.nomeImagem , file2))
 					img.thumbMig=true
 					img.save(flush:true)
 					

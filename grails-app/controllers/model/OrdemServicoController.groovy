@@ -360,6 +360,13 @@ class OrdemServicoController extends BaseController{
 
     def update = {
         def ordemServicoInstance = OrdemServico.get(params.id)
+		
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		
+		params.dataAcionamento = df.parse(  params.dataAcionamento )
+		params.dataAtendimento = df.parse(  params.dataAtendimento )
+		params.dataPagamento = df.parse(  params.dataPagamento )
+		
         if (ordemServicoInstance) {
             if (params.version) {
                 def version = params.version.toLong()
@@ -375,7 +382,7 @@ class OrdemServicoController extends BaseController{
                 gravaLog(ordemServicoInstance, LogOrdemServico.ALTERADO)
                 flash.message = "ordemServico.updated"
                 flash.args = [params.id]
-                flash.defaultMessage = "OrdemServico ${params.id} updated"
+                flash.defaultMessage = "Atendimento ${params.id} atualizado com sucesso."
                 redirect(action: "show", id: ordemServicoInstance.id)
             }
             else {

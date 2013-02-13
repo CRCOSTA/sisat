@@ -1,0 +1,19 @@
+#sidebar {
+	display: none;
+}
+
+#content-header .btn-group {
+	display: none;
+}
+#breadcrumb{
+	display: none;
+}
+
+#user-nav{
+	display: none;
+}
+
+
+.collapse {
+height: auto;
+}

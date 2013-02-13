@@ -112,8 +112,8 @@ class BaseController {
     }
 
     def logout = {
-        session.user = null;
-        render(view:'login')
+       session.user = null;
+       redirect(uri: "/");
     }
 
 

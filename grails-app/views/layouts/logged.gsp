@@ -5,7 +5,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="${resource(dir:'css',file:'bootstrap.css')}" />
-        <link rel="stylesheet" href="${resource(dir:'css',file:'bootstrap-responsive.min.css')}" />
+        <link rel="stylesheet" href="${resource(dir:'css',file:'bootstrap-responsive.min.css')}" media="screen"/>
         <link rel="stylesheet" href="${resource(dir:'css',file:'unicorn.main.css')}" />
 		<link rel="stylesheet" href="${resource(dir:'css',file:'unicorn.grey.css')}" />
 		
@@ -34,9 +34,9 @@
                   
 		<div id="sidebar">
 			<ul>
-				<li class="active"><a href="#"><i class="icon icon-home"></i> <span>Principal</span></a></li>
-				<li class="submenu">
-					<a href="#"><i class="icon icon-list-alt"></i> <span>Atendimentos</span> </a>
+				<li class="${params.controller=='base'?'active':''}"><g:link action="home" controller="base"><i class="icon icon-home"></i> <span>Principal</span></g:link></li>
+				<li class="submenu ${params.controller=='ordemServico'?'active open':''} ">
+					<a href="#"><i class="icon icon-list-alt"></i> <span>Atendimentos </span> </a>
 					<ul>
 						<li><g:link action="filtros" controller="ordemServico">Pesquisar Atendimentos</g:link></li>
 						<li><g:link action="create" controller="ordemServico">Novo Atendimento</g:link></li>
