@@ -1,12 +1,7 @@
  $(document).ready(function() {
 	 
 	 var plotChart = function(){
-		 var data = [];
-			var series = Math.floor(Math.random()*10)+1;
-			for( var i = 0; i<series; i++)
-			{
-				data[i] = { label: "Series"+(i+1), data: Math.floor(Math.random()*100)+1 }
-			}
+		 var data = JSON.parse($('#funcionarioAtendimentos').val());
 			
 		    var pie = $.plot($(".pie"), data,{
 		        series: {

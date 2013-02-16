@@ -15,10 +15,10 @@ class OrdemServico {
 	Date chegada
 	Date saida
 	Date dataAcionamento
-	Date dataAtendimento // data para a qual o serviço foi agendado
+	Date dataAtendimento // data para a qual o servico foi agendado
 	String previaInicial
 	String previaFinal
-	String descServico // descrição enviada pela USS
+	String descServico // descrico enviada pela USS
 
 	Funcionario funcionario
 	String formaDeAcionamento

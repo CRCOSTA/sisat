@@ -5555,7 +5555,7 @@ to {
 	background-color: #F8E506;
 }
 
-.label-com-tecnico[href],.badge-com-tecnico[href] {
+.label-com_o_tecnico[href],.badge-com_o_tecnico[href] {
 	background-color: #F8E506;
 }
 
@@ -5565,6 +5565,16 @@ to {
 }
 
 .label-cancelada[href],.badge-cancelada[href] {
+	background-color: #fff;
+	color: #000;
+}
+
+.label-cancelado {
+	background-color: #fff;
+	color: #000;
+}
+
+.label-cancelado[href]{
 	background-color: #fff;
 	color: #000;
 }

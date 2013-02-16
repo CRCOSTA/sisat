@@ -22,10 +22,12 @@
 		</div>
 		
 		<div id="search">
-			<input type="text" placeholder="N&uacute;mero do Atendimento..."/><button type="submit" class="tip-right" title="Buscar"><i class="icon-search icon-white"></i></button>
+			<g:form controller="ordemServico" action="findByNumero" method="post"><input type="text"  name="numero"  placeholder="N&uacute;mero do Atendimento..."/><button type="submit" class="tip-right" title="Buscar"><i class="icon-search icon-white"></i></button></g:form>
+			
 		</div>
     
     	<div id="user-nav" class="navbar navbar-inverse">
+    	<span>SISAT - ${mesAtual }/ ${anoAtual }<br></span>
             <ul class="nav btn-group">
                   <li class="btn btn-inverse"><g:link action="logout" controller="base"><i class="icon icon-share-alt"></i> <span class="text">Efetuar logout</span></g:link></li>
             </ul>

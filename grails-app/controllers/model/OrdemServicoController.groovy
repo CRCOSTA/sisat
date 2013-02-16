@@ -21,6 +21,30 @@ class OrdemServicoController extends BaseController{
          render( view:"list",model:[ordemServicoInstanceList:OrdemServico.get(params.id), ordemServicoInstanceTotal: OrdemServico.count()],statusList:OrdemServico.constraints.status.inList)
     }
 	
+	def findByNumero={
+		def numeroSplit = params.numero.split('/')
+		
+		def numero = numeroSplit[0]
+		def barra = ""
+		def atendimento=null
+		if(numeroSplit.length>1){
+			barra = numeroSplit[1]
+			
+			atendimento = OrdemServico.findByNumeroAndBarra(numero,barra)
+			
+			render(view: "show", model: [ordemServicoInstance: atendimento])
+		}else{
+			atendimento = OrdemServico.findByNumero(numero)
+		
+			render(view: "show", model: [ordemServicoInstance: atendimento])
+		}
+		
+		
+		
+		
+		
+	}
+	
 	def listByTecnico ={
 		
 		if(session.user.tecnico){
