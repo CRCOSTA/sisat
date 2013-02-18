@@ -44,7 +44,7 @@
 							<g:hiddenField name="id" value="${ordemServicoInstance?.id}" />
 							<g:hiddenField name="version" value="${ordemServicoInstance?.version}" />
 
-							<g:hiddenField name="geometryLocation" id="geometryLocation" />
+							<g:hiddenField name="geometryLocation" id="geometryLocation" value="${ordemServicoInstance?.geometryLocation}" />
 
 							<div class="control-group">
 								<label class="control-label">Empresa</label>
@@ -105,7 +105,7 @@
 							<div class="control-group">
 								<label class="control-label">Refer&ecirc;ncia</label>
 								<div class="controls">
-									<g:textArea style="width:350px;height:50px;" name="referencia" value="${fieldValue(bean: ordemServicoInstance, field: 'referencia')}" />
+									<g:textArea style="width:350px;height:50px;" name="referencia" value="${ordemServicoInstance?.referencia}" />
 
 									<div id="myModal" class="modal hide">
 										<div class="modal-header">
@@ -129,7 +129,7 @@
 								<label class="control-label">Data do acionamento</label>
 								<div class="controls">
 									<div class="input-append date" id="datepickerAcionamento" data-date-format="dd/mm/yyyy">
-										<input type="text" name="dataAcionamento" id="dataAcionamento" class="span2" style="width: 90px;" value="${ordemServicoInstance?.dataAcionamento}" readonly /> <span class="add-on"><i
+										<input type="text" name="dataAcionamento" id="dataAcionamento" class="span2" style="width: 90px;" value="<g:formatDate date="${ordemServicoInstance?.dataAcionamento}" format="dd/MM/yyyy" />" readonly /> <span class="add-on"><i
 											class="icon-th"></i></span>
 									</div>
 								</div>
@@ -140,7 +140,7 @@
 								<label class="control-label"> Data do atendimento</label>
 								<div class="controls">
 									<div class="input-append date" id="datepickerAtendimento" data-date-format="dd/mm/yyyy">
-										<input type="text" name="dataAtendimento" id="dataAtendimento" class="span2" style="width: 90px;" value="${ordemServicoInstance?.dataAtendimento}" readonly /> <span class="add-on"><i
+										<input type="text" name="dataAtendimento" id="dataAtendimento" class="span2" style="width: 90px;" value="<g:formatDate date="${ordemServicoInstance?.dataAtendimento}" format="dd/MM/yyyy" />" readonly /> <span class="add-on"><i
 											class="icon-th"></i></span>
 									</div>
 									<span>&nbsp;&nbsp;de:</span>
@@ -245,7 +245,7 @@
 	<g:javascript library="jquery.ui.custom" />
 	<g:javascript library="select2" />
 	<g:javascript library="unicorn.form_common" />
-	<g:javascript library="sisat.ordemservico.create" />
+	<g:javascript library="sisat.ordemservico" />
 	<g:javascript library="sisat.ordemservico.edit" />
 	<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
 

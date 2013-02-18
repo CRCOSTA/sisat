@@ -389,7 +389,9 @@ class OrdemServicoController extends BaseController{
 		
 		params.dataAcionamento = df.parse(  params.dataAcionamento )
 		params.dataAtendimento = df.parse(  params.dataAtendimento )
-		params.dataPagamento = df.parse(  params.dataPagamento )
+		if(params.dataPagamento){
+			params.dataPagamento = df.parse(  params.dataPagamento )
+		}
 		
         if (ordemServicoInstance) {
             if (params.version) {

@@ -197,6 +197,7 @@
 	<g:javascript library="jquery.ui.custom" />
 	<g:javascript library="select2" /> 
 	<g:javascript library="unicorn.form_common" />
+	<g:javascript library="sisat.ordemservico" />
 	<g:javascript library="sisat.ordemservico.create" />
 
   	<script src="http://maps.google.com/maps/api/js?sensor=false"></script>

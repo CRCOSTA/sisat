@@ -27,7 +27,6 @@
 		</div>
     
     	<div id="user-nav" class="navbar navbar-inverse">
-    	<span>SISAT - ${mesAtual }/ ${anoAtual }<br></span>
             <ul class="nav btn-group">
                   <li class="btn btn-inverse"><g:link action="logout" controller="base"><i class="icon icon-share-alt"></i> <span class="text">Efetuar logout</span></g:link></li>
             </ul>
@@ -45,6 +44,13 @@
 						<li><g:link action="lotePagamento" controller="ordemServico">Lotes de Pagamento</g:link></li>
 					</ul>
 				</li>
+				<li class="submenu ${params.controller=='empresa'?'active open':''} ">
+					<a href="#"><i class="icon icon-globe"></i> <span>Empresa</span> </a>
+					<ul>
+						<li><g:link action="list" controller="empresa">Pesquisar Empresa</g:link></li>
+						<li><g:link action="create" controller="empresa">Nova Empresa</g:link></li>
+					</ul>
+				</li>
 				<li class="submenu">
 					<a href="#"><i class="icon icon-briefcase"></i> <span>Material</span> </a>
 					<ul>
@@ -54,13 +60,7 @@
 						<li><g:link action="movimentacaoDeMaterial" controller="create">Movimenta&ccedil;&atilde;o</g:link></li>
 					</ul>
 				</li>
-				<li class="submenu">
-					<a href="#"><i class="icon icon-briefcase"></i> <span>Empresa</span> </a>
-					<ul>
-						<li><g:link action="empresa" controller="list">Pesquisar Empresa</g:link></li>
-						<li><g:link action="empresa" controller="create">Nova Empresa</g:link></li>
-					</ul>
-				</li>
+				
 				<li class="submenu">
 					<a href="#"><i class="icon icon-briefcase"></i> <span>Seguradora</span> </a>
 					<ul>

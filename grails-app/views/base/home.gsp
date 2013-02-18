@@ -69,29 +69,18 @@
 						<span class="icon"><i class="icon-signal"></i></span>
 						<h5>
 							Atendimentos por modalidade -
-							${mesAtual }/
-							${anoAtual }
+							<g:formatDate date="${dia}" format="dd/MM/yyyy" />
+
 						</h5>
 						<div class="buttons">
 							<a href="#collapseStatistic" data-toggle="collapse" id="collapse1"><i class="icon-minus"></i></a>
 						</div>
+						<span class="label tip-bottom label-important"> ${totalDiario} Atendimentos
+						</span>
 					</div>
 					<div class="collapse in" id="collapseStatistic">
 						<div class="widget-content">
-							<div class="row-fluid">
-								<ul class="site-stats">
-									<li><i class="icon-tasks"></i> <strong> ${eletricaTotal}
-									</strong> <small>El&eacute;trica</small></li>
-									<li><i class="icon-tasks"></i> <strong> ${hidraulicaTotal}
-									</strong> <small>Hidr&aacute;ulica</small></li>
-									<li><i class="icon-tasks"></i> <strong> ${vidraceiroTotal}
-									</strong> <small>Vidraceiro</small></li>
-									<li><i class="icon-tasks"></i> <strong> ${limpezaTotal }
-									</strong> <small>Limpeza de caixa d'&aacute;gua</small></li>
-									<li><i class="icon-tasks"></i> <strong> ${manutencaoTotal }
-									</strong> <small>Manuten&ccedil;&atilde;o geral(or&ccedil;amento)</small></li>
-								</ul>
-							</div>
+							<div class="bars"></div>
 						</div>
 					</div>
 				</div>
@@ -104,12 +93,14 @@
 						<span class="icon"><i class="icon-signal"></i></span>
 						<h5>
 							Atendimentos por funcionario -
-							${mesAtual }/
-							${anoAtual }
+							<g:formatDate date="${dia}" format="dd/MM/yyyy" />
+
 						</h5>
 						<div class="buttons">
 							<a href="#collapseChart" data-toggle="collapse"><i class="icon-minus"></i></a>
 						</div>
+						<span class="label tip-bottom label-important"> ${totalDiario} Atendimentos
+						</span>
 					</div>
 					<div class="collapse in" id="collapseChart">
 						<div class="widget-content">
@@ -133,9 +124,7 @@
 						<h5>
 							Planilha di&aacute;ria de atendimento -
 							<g:formatDate date="${dia}" format="dd/MM/yyyy" />
-							-
-							${totalDiario}
-							Atendimentos
+
 
 						</h5>
 						<div class="buttons">
@@ -143,12 +132,10 @@
 						</div>
 						<g:each in="${statusList}" var="status">
 							<g:set var="totalPorStatus" value="${totalAtendimentosPorStatusDia.get(status)}" />
-							<span class="label tip-bottom label-${status.replace(' ','_')}" title="${status}">
-								${totalPorStatus[0]}
+							<span class="label tip-bottom label-${status.replace(' ','_')}" title="${status}"> ${totalPorStatus[0]}
 							</span>
 						</g:each>
-
-
+						<span class="label tip-bottom label-important"> ${	totalDiario } Atendimentos	</span>
 					</div>
 					<div class="collapse in" id="collapseTable">
 						<div class="widget-content nopadding">
@@ -174,16 +161,16 @@
 											<td><g:each in="${ordensPorFuncionarioMapInstance}" var="ordemServicoInstanceList">
 
 													<g:each in="${ordemServicoInstanceList}" var="ordemServicoInstance">
-													
+
 														<g:render template="/ordemServico/modalAtendimento" bean="${ordemServicoInstance}" var="ordemServicoInstance" />
-													
+
 														<br>
-														
+
 														<input type="hidden" id="statusAtendimento${ordemServicoInstance.id}" value="${ordemServicoInstance.cssStatusColor}">
-			                       					  	<a href="#myModal${ordemServicoInstance.id}" onclick="prepararActions(${ordemServicoInstance.id},$('#statusAtendimento${ordemServicoInstance.id}').val())" data-toggle="modal"  data-original-title="Dados do atendimento">
-															<span class="label label-${ordemServicoInstance.cssStatusColor}">de ${ordemServicoInstance.previaInicial} até ${ordemServicoInstance.previaFinal} <br> ${ordemServicoInstance.numero}/${ordemServicoInstance.barra}</span>
-															<br>
-			                       					  	</a>
+														<a href="#myModal${ordemServicoInstance.id}" onclick="prepararActions(${ordemServicoInstance.id},$('#statusAtendimento${ordemServicoInstance.id}').val())" data-toggle="modal"
+															data-original-title="Dados do atendimento"> <span class="label label-${ordemServicoInstance.cssStatusColor}">de ${ordemServicoInstance.previaInicial} até ${ordemServicoInstance.previaFinal}
+																<br> ${ordemServicoInstance.numero}/${ordemServicoInstance.barra}</span> <br>
+														</a>
 
 													</g:each>
 
@@ -202,15 +189,15 @@
 											<td><g:each in="${ordensPorFuncionarioMapInstance}" var="ordemServicoInstanceList">
 
 													<g:each in="${ordemServicoInstanceList}" var="ordemServicoInstance">
-													
+
 														<g:render template="/ordemServico/modalAtendimento" bean="${ordemServicoInstance}" var="ordemServicoInstance" />
-													
+
 														<br>
 														<input type="hidden" id="statusAtendimento${ordemServicoInstance.id}" value="${ordemServicoInstance.cssStatusColor}">
-			                       					  	<a href="#myModal${ordemServicoInstance.id}" onclick="prepararActions(${ordemServicoInstance.id},$('#statusAtendimento${ordemServicoInstance.id}').val())" data-toggle="modal"  data-original-title="Dados do atendimento">
-															<span class="label label-${ordemServicoInstance.cssStatusColor}">de ${ordemServicoInstance.previaInicial} até ${ordemServicoInstance.previaFinal} <br> ${ordemServicoInstance.numero}/${ordemServicoInstance.barra}</span>
-															<br>
-			                       					  	</a>
+														<a href="#myModal${ordemServicoInstance.id}" onclick="prepararActions(${ordemServicoInstance.id},$('#statusAtendimento${ordemServicoInstance.id}').val())" data-toggle="modal"
+															data-original-title="Dados do atendimento"> <span class="label label-${ordemServicoInstance.cssStatusColor}">de ${ordemServicoInstance.previaInicial} até ${ordemServicoInstance.previaFinal}
+																<br> ${ordemServicoInstance.numero}/${ordemServicoInstance.barra}</span> <br>
+														</a>
 
 
 													</g:each>
@@ -230,15 +217,15 @@
 											<td><g:each in="${ordensPorFuncionarioMapInstance}" var="ordemServicoInstanceList">
 
 													<g:each in="${ordemServicoInstanceList}" var="ordemServicoInstance">
-														
+
 														<g:render template="/ordemServico/modalAtendimento" bean="${ordemServicoInstance}" var="ordemServicoInstance" />
-														
+
 														<br>
 														<input type="hidden" id="statusAtendimento${ordemServicoInstance.id}" value="${ordemServicoInstance.cssStatusColor}">
-			                       					  	<a href="#myModal${ordemServicoInstance.id}" onclick="prepararActions(${ordemServicoInstance.id},$('#statusAtendimento${ordemServicoInstance.id}').val())" data-toggle="modal"  data-original-title="Dados do atendimento">
-															<span class="label label-${ordemServicoInstance.cssStatusColor}">de ${ordemServicoInstance.previaInicial} até ${ordemServicoInstance.previaFinal} <br> ${ordemServicoInstance.numero}/${ordemServicoInstance.barra}</span>
-															<br>
-			                       					  	</a>
+														<a href="#myModal${ordemServicoInstance.id}" onclick="prepararActions(${ordemServicoInstance.id},$('#statusAtendimento${ordemServicoInstance.id}').val())" data-toggle="modal"
+															data-original-title="Dados do atendimento"> <span class="label label-${ordemServicoInstance.cssStatusColor}">de ${ordemServicoInstance.previaInicial} até ${ordemServicoInstance.previaFinal}
+																<br> ${ordemServicoInstance.numero}/${ordemServicoInstance.barra}</span> <br>
+														</a>
 
 
 													</g:each>
@@ -277,7 +264,7 @@
 				<div class="widget-box">
 					<div class="widget-title">
 						<span class="icon"><i class="icon-globe"></i></span>
-						<h5>Mapa di&aacute;rio de atendimento - 18/12/2012</h5>
+						<h5>Mapa di&aacute;rio de atendimento - <g:formatDate date="${dia}" format="dd/MM/yyyy" /></h5>
 						<div class="buttons">
 							<a href="#collapseMap" data-toggle="collapse"><i class="icon-minus"></i></a>
 						</div>
@@ -292,7 +279,10 @@
 
 	</div>
 	<g:hiddenField name="funcionarioAtendimentos" id="funcionarioAtendimentos" value="${atendimentosPorFuncionarioTotal}" />
-	
+
+	<g:hiddenField name="modalidadeAtendimentos" id="modalidadeAtendimentos" value="${atendimentosPorModalidadeTotal}" />
+
+	<g:hiddenField name="lstOrdem" value="${lstOrdem}" />
 
 
 
@@ -306,6 +296,7 @@
 
 	<g:javascript library="jquery.flot" />
 	<g:javascript library="jquery.flot.pie" />
+	<g:javascript library="jquery.flot.categories" />
 	<g:javascript library="jquery.peity.min" />
 	<g:javascript library="unicorn.dashboard" />
 	<g:javascript library="sisat.home" />

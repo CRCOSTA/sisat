@@ -1,6 +1,8 @@
 package model
 
-import org.apache.commons.io.filefilter.FalseFileFilter;
+import grails.converters.JSON
+
+import java.text.SimpleDateFormat
 
 class BaseController {
 
@@ -45,7 +47,7 @@ class BaseController {
 		
 		def primeiroDia =  GregorianCalendar.getInstance()
 		
-		def anoAtual =2012// calendarMesAtual.get(Calendar.YEAR)
+		def anoAtual = calendarMesAtual.get(Calendar.YEAR)
 		
 		def mesAtual = calendarMesAtual.get(Calendar.MONTH)
 		
@@ -54,6 +56,10 @@ class BaseController {
 		def ultimoDia = GregorianCalendar.getInstance()
 		
 		ultimoDia.set(anoAtual, mesAtual, calendarMesAtual.getActualMaximum(Calendar.DAY_OF_MONTH))
+		
+		println new SimpleDateFormat("dd/MM/yy HH:mm").format(primeiroDia.getTime())
+		println new SimpleDateFormat("dd/MM/yy HH:mm").format(ultimoDia.getTime())
+		
 		
 		def c = OrdemServico.createCriteria()
 		def atendimentosDoMes = c.list {
@@ -64,7 +70,6 @@ class BaseController {
 		
 		def atendimentosPorStatus = [:].withDefault { [] }
 		def atendimentosPorModalidade = [:].withDefault { [] }
-		def atendimentosPorFuncionario = [:].withDefault { [] }
 		atendimentosDoMes.each {
 			if(it.visitaPerdida){
 				atendimentosPorStatus["visita"] << it
@@ -72,12 +77,6 @@ class BaseController {
 			}else{
 				atendimentosPorStatus[it.status] << it
 			}
-			
-			
-			atendimentosPorModalidade[""+it.modalidade?.id] << it
-			
-			atendimentosPorFuncionario[it.funcionario.login] << it
-			
 			
 		}
 		
@@ -127,12 +126,6 @@ class BaseController {
 			fechadosPorDia = fechadosPorDia + atendimentosFechadosPorDia[it].size() + ","
 		}
 		
-		def atendimentosPorFuncionarioTotal = ""
-		atendimentosPorFuncionario.keySet().each {
-			atendimentosPorFuncionarioTotal = atendimentosPorFuncionarioTotal + "{\"label\":\""+it +"\",\"data\":"+ atendimentosPorFuncionario[it].size() + "},"
-		}
-		
-		atendimentosPorFuncionarioTotal = "["+ atendimentosPorFuncionarioTotal.substring(0,atendimentosPorFuncionarioTotal.length()-1) + "]"
 		
 
 		def fList = Funcionario.findAllByTipoFuncionarioNotAndAtivo(model.TipoFuncionario.get(1),true)
@@ -143,14 +136,14 @@ class BaseController {
 		def query = "from OrdemServico o where o.funcionario=:p_funcionario and (o.dataAtendimento >= :p_dia and o.dataAtendimento < :p_diaSeguinte )"+
 				" and (o.previaInicial >= :p_periodo_ini and o.previaInicial < :p_periodo_fim) order by previaInicial asc"
 
-
 		def totalDiario=0
-		def dia = primeiroDia.getTime()
+		
+		def dia= new SimpleDateFormat("dd/MM/yy HH:mm").parse(GregorianCalendar.getInstance().get(Calendar.DAY_OF_MONTH) + "/"+(mesAtual+1)+"/"+anoAtual+" 00:00");
 		def diaSeguinte = dia +1
 		
 		def atendimentosPorStatusDia = [:].withDefault { [] }
 		
-		
+		def atendimentosParaMapa = new ArrayList();
 		for(Funcionario f:fList){
 			def queryParams = new LinkedHashMap()
 			queryParams.put("p_funcionario",f)
@@ -163,7 +156,9 @@ class BaseController {
 			
 			lstManha.each {
 				atendimentosPorStatusDia[it.status] << it
+				atendimentosPorModalidade[it.modalidade?.id] << it
 			}
+			atendimentosParaMapa.addAll(lstManha.clone())
 
 			queryParams.remove("p_periodo_ini")
 			queryParams.remove("p_periodo_fim")
@@ -174,8 +169,10 @@ class BaseController {
 			
 			lstTarde.each {
 				atendimentosPorStatusDia[it.status] << it
+				atendimentosPorModalidade[it.modalidade?.id] << it
 			}
-
+			atendimentosParaMapa.addAll(lstTarde.clone())
+			
 			queryParams.remove("p_periodo_ini")
 			queryParams.remove("p_periodo_fim")
 			queryParams.put("p_periodo_ini","18:00")
@@ -185,7 +182,10 @@ class BaseController {
 			
 			lstNoite.each {
 				atendimentosPorStatusDia[it.status] << it
+				atendimentosPorModalidade[it.modalidade?.id] << it
 			}
+			
+			atendimentosParaMapa.addAll(lstNoite.clone())
 
 			def totalPorFunc = lstManha.size() + lstTarde.size() + lstNoite.size()
 			totalDiario = totalDiario + totalPorFunc
@@ -201,7 +201,34 @@ class BaseController {
 			totalAtendimentosPorStatusDia[it]<< atendimentosPorStatusDia[it].size()
 			
 		}
-
+		
+		def atendimentosPorFuncionarioTotal = ""
+		totalOrdensPorFuncionarioMap.keySet().each {
+			def total = totalOrdensPorFuncionarioMap[it]
+			if(total>0){
+				atendimentosPorFuncionarioTotal = atendimentosPorFuncionarioTotal + "{\"label\":\""+it +"\",\"data\":"+ total + "},"
+			}
+		}
+		
+		def atendimentosPorModalidadeTotal = ""
+		def i=1
+		Modalidade.list().each {
+			def total = atendimentosPorModalidade[it.id].size()
+			if(total>0){
+				atendimentosPorModalidadeTotal = atendimentosPorModalidadeTotal + "{\"label\":\""+it.descricao +"\",\"data\":[["+i+","+ total + "]]},"
+				i++
+			}
+		}
+		if(atendimentosPorFuncionarioTotal!=""){
+			atendimentosPorFuncionarioTotal = "["+ atendimentosPorFuncionarioTotal.substring(0,atendimentosPorFuncionarioTotal.length()-1) + "]"
+		}
+		if(atendimentosPorModalidadeTotal!=""){
+			atendimentosPorModalidadeTotal = "["+ atendimentosPorModalidadeTotal.substring(0,atendimentosPorModalidadeTotal.length()-1) + "]"
+		}
+		
+		
+		def jsonAtendimentos = atendimentosParaMapa as JSON
+		
 		[totalAtendimentosPorStatusDia:totalAtendimentosPorStatusDia,funcionarioInstanceList: fList,dia:dia,
 			ordensPorFuncionarioManhaMap:ordensPorFuncionarioManhaMap,
 			ordensPorFuncionarioTardeMap:ordensPorFuncionarioTardeMap,
@@ -209,22 +236,19 @@ class BaseController {
 			statusList:statusList,
 			totalOrdensPorFuncionarioMap:totalOrdensPorFuncionarioMap,
 			totalDiario:totalDiario,
-			canceladosPorDia:canceladosPorDia.substring(0,canceladosPorDia.length() -1),
-			visitasPorDia:visitasPorDia.substring(0,visitasPorDia.length() -1),
-			fechadosPorDia:fechadosPorDia.substring(0,fechadosPorDia.length() -1),
-			totalGeralPorDia:totalGeralPorDia.substring(0,totalGeralPorDia.length() -1),
-			mesAtual:meses[mesAtual],
+			canceladosPorDia:canceladosPorDia.length()>0?canceladosPorDia.substring(0,canceladosPorDia.length() -1):"",
+			visitasPorDia:visitasPorDia.length()>0?visitasPorDia.substring(0,visitasPorDia.length() -1):"",
+			fechadosPorDia:fechadosPorDia.length()>0?fechadosPorDia.substring(0,fechadosPorDia.length() -1):"",
+			totalGeralPorDia:totalGeralPorDia.length()>0?totalGeralPorDia.substring(0,totalGeralPorDia.length() -1):"",
+			mesAtual:meses[mesAtual+1],
 			anoAtual:anoAtual,
 			totalCancelado:atendimentosPorStatus["cancelado"].size(),
 			totalFechada:atendimentosPorStatus["fechada"].size(),
 			totalVisita:atendimentosPorStatus["visita"].size(),
-			totalGeral:atendimentosDoMes.size(),
-			vidraceiroTotal:atendimentosPorModalidade["12"].size(),
-			eletricaTotal:atendimentosPorModalidade["3"].size(),
-			hidraulicaTotal:atendimentosPorModalidade["2"].size(),
-			limpezaTotal:atendimentosPorModalidade["8"].size(),
-			manutencaoTotal:atendimentosPorModalidade["5"].size(),
-			atendimentosPorFuncionarioTotal:atendimentosPorFuncionarioTotal]
+			totalGeral:atendimentosDoMes.size()>0?atendimentosDoMes.size():1,
+			atendimentosPorFuncionarioTotal:atendimentosPorFuncionarioTotal,
+			atendimentosPorModalidadeTotal:atendimentosPorModalidadeTotal,
+			lstOrdem:jsonAtendimentos]
 		
 		
 		}

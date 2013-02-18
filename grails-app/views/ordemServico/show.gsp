@@ -29,7 +29,6 @@
 				</g:link>
 			</g:if>
 			<a class="btn btn-large tip-bottom" data-original-title="Imprimir" data-toggle="modal" id='btnPrint' onclick="window.print();"><i class="icon-print"></i></a>
-			${ordemServicoInstance.status}
 			<g:if test="${ordemServicoInstance.status!='cancelado' && ordemServicoInstance.status!='fechada' && ordemServicoInstance.status!='aguardando pagamento' && ordemServicoInstance.status!='liquidada'}">
 				<a class="btn btn-danger btn-large tip-left" data-original-title="Cancelar atendimento"><i class="icon-trash icon-white"></i></a>
 			</g:if>
@@ -134,6 +133,12 @@
 							<label class="control-label atendimento-dados-label">Refer&ecirc;cia:</label>
 							<div class="atendimento-dados">
 								${fieldValue(bean: ordemServicoInstance, field: "referencia")}
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label atendimento-dados-label">Geolocaliza&ccedil;&atilde;o:</label>
+							<div class="atendimento-dados">
+								${fieldValue(bean: ordemServicoInstance, field: "geometryLocation")}
 							</div>
 						</div>
 						<div class="control-group">
