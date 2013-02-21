@@ -8,7 +8,6 @@ class TipoFuncionarioController extends BaseController{
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def list = {
-        params.max = Math.min(params.max ? params.max.toInteger() : 10,  100)
         [tipoFuncionarioInstanceList: TipoFuncionario.list(params), tipoFuncionarioInstanceTotal: TipoFuncionario.count()]
     }
 

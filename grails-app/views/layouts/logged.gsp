@@ -52,13 +52,13 @@
 					</ul>
 				</li>
 				
-				<li class="submenu ${params.controller=='funcionario'?'active open':''}">
+				<li class="submenu ${params.controller=='funcionario'|| params.controller=='tipoFuncionario'?'active open':''}">
 					<a href="#"><i class="icon icon-user"></i> <span>Funcion&aacute;rio</span> </a>
 					<ul>
 						<li><g:link action="list" controller="funcionario">Pesquisar Funcion&aacute;rio</g:link></li>
 						<li><g:link action="create" controller="funcionario">Novo Funcion&aacute;rio</g:link></li>
-						<li><g:link action="tipoFuncionario" controller="list">Pesquisar Tipo de Funcion&aacute;rio</g:link></li>
-						<li><g:link action="tipoFuncionario" controller="create">Novo Tipo de Funcion&aacute;rio</g:link></li>
+						<li><g:link action="list" controller="tipoFuncionario">Pesq Tipo de Funcion&aacute;rio</g:link></li>
+						<li><g:link action="create" controller="tipoFuncionario">Novo Tipo de Funcion&aacute;rio</g:link></li>
 					</ul>
 				</li>
 				
