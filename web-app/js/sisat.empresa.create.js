@@ -8,7 +8,7 @@ $(document).ready(function(){
 			contato:{required:true},
 			endereco:{required:true},
 			cep:{required:true},
-			telefone1:{required:true},
+			telefone1:{required:true}
 			
 		},
 		errorClass: "help-inline",

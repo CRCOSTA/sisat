@@ -4,9 +4,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="layout" content="logged" />
-<title>Cadastro de empresas</title>
+<title>Visualiza&ccedil;&atilde;o  de empresas</title>
 
-<link rel="stylesheet" href="${resource(dir:'css',file:'select2.css')}" />
 <link rel="stylesheet" href="${resource(dir:'css',file:'uniform.css')}" />
 <link rel="stylesheet" href="${resource(dir:'css',file:'sistat.atendimento.show.print.css')}" media="print" />
 
@@ -128,9 +127,6 @@
 	</div>
 
 	<g:javascript library="jquery.uniform" />
-	<g:javascript library="jquery.validate" />
-	<g:javascript library="jquery.maskedinput" />
-	<g:javascript library="sisat.empresa.create" />
 
 
 

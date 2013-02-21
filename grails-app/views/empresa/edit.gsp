@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="layout" content="logged" />
-<title>Cadastro de empresas</title>
+<title>Edi&ccedil;&atilde;o de empresas</title>
 
 <link rel="stylesheet" href="${resource(dir:'css',file:'select2.css')}" />
 <link rel="stylesheet" href="${resource(dir:'css',file:'uniform.css')}" />
@@ -13,7 +13,7 @@
 <body>
 
 	<div id="content-header">
-		<h1>Cadastro de empresas</h1>
+		<h1>Edi&ccedil;&atilde;o de empresas</h1>
 
 	</div>
 	<div id="breadcrumb">
@@ -108,6 +108,8 @@
                          
                          <div class="form-actions">
 							<input type="submit" value="Salvar" id="create" class="btn btn-primary">
+							
+							<g:actionSubmit action="delete" value="Remover" class="btn btn-danger" onclick="return confirm('${message(code: 'delete.confirm', 'default': 'Tem certeza?')}');" />
 						</div>
 						
 						</g:form>
