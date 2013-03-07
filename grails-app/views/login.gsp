@@ -32,7 +32,9 @@ $(document).ready(function(){
 
 </head>
 <body>
-	<div id="logo"></div>
+	<div id="logo">
+            <img src="/SISAT/images/logosisat.png" alt="">
+        </div>
 	<div id="loginbox">
 	<g:form name="loginform" action="handleLogin" controller="base" class="form-vertical" >
 			<p>Digite o nome do Usu&aacute;rio e a senha.</p>

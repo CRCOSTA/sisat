@@ -1,9 +1,18 @@
 $(document).ready(function(){
 
+	$('select').select2();
 	
-	$('#createTipoFuncionario').validate({
+	jQuery.validator.addMethod("notNull", function(value, element) {
+		 console.log(value);
+	        console.log(value.toUpperCase()==='NULL');
+	    return value.toUpperCase()!=='NULL'  ;
+	}, "Campo de preenchimento obrigat&oacute;rio.");
+   
+	
+	$('#createSeguradora').validate({
 		rules:{
-			descTipoFunc:{required:true}
+			nome:{required:true},
+			"empresa.id":{notNull:true}
 			
 		},
 		errorClass: "help-inline",

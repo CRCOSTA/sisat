@@ -1,5 +1,8 @@
 package model
 
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+
 class EstoqueFuncionarioController {
 
     def index = { redirect(action: "list", params: params) }
@@ -28,16 +31,32 @@ class EstoqueFuncionarioController {
     }
 
     def save = {
-        def estoqueFuncionarioInstance = new EstoqueFuncionario(params)
-        if (!estoqueFuncionarioInstance.hasErrors() && estoqueFuncionarioInstance.save()) {
-            flash.message = "estoqueFuncionario.created"
-            flash.args = [estoqueFuncionarioInstance.id]
-            flash.defaultMessage = "EstoqueFuncionario ${estoqueFuncionarioInstance.id} created"
-            redirect(action: "show", id: estoqueFuncionarioInstance.id)
-        }
-        else {
-            render(view: "create", model: [estoqueFuncionarioInstance: estoqueFuncionarioInstance])
-        }
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy")
+		
+		params.dataInclusao = df.parse(  params.dataInclusao )
+		
+		def material = Material.get(Integer.parseInt( params.material.id))
+		
+		def estoque = EstoqueFuncionario.findByMaterial(material)
+		
+		if(estoque){
+			estoque.qtd = estoque.qtd + Integer.parseInt(params.qtd)
+			estoque.dataInclusao = params.dataInclusao
+			if (!estoque.hasErrors() && estoque.save()) {
+				render "ok" 
+			}else{
+				render(status: 503, text: "erro ao inserir material no estoque do tecnico.")
+			}
+		}else{
+		
+	        def estoqueFuncionarioInstance = new EstoqueFuncionario(params)
+	        if (!estoqueFuncionarioInstance.hasErrors() && estoqueFuncionarioInstance.save()) {
+	         	render "ok"
+			}
+	        else {
+				render(status: 503, text: "erro ao inserir material no estoque do tecnico.")
+	        }
+		}
     }
 
     def show = {

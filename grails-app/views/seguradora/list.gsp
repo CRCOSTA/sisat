@@ -1,10 +1,10 @@
 
-<%@ page import="model.TipoFuncionario" %>
+<%@ page import="model.Seguradora" %>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="layout" content="logged" />
-<title>Pesquisa de tipos de funcion&aacute;rio</title>
+<title>Pesquisa de seguradora</title>
 
 <link rel="stylesheet" href="${resource(dir:'css',file:'uniform.css')}" />
 
@@ -12,11 +12,11 @@
 <body>
 
 	<div id="content-header">
-		<h1>Pesquisa de tipos de funcion&aacute;rio</h1>
+		<h1>Pesquisa de seguradoras</h1>
 
 	</div>
 	<div id="breadcrumb">
-		<a href="/" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="tip-bottom">tipos de funcion&aacute;rio</a> <a href="#" class="current">Pesquisa</a>
+		<a href="/" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="tip-bottom">Seguradoras</a> <a href="#" class="current">Pesquisa</a>
 	</div>
 
 
@@ -28,7 +28,7 @@
 					<div class="widget-title">
 						<span class="icon"> <i class="icon-list-alt"></i>
 						</span>
-						<h5>Lista de tipos de funcion&aacute;rios</h5>
+						<h5>Lista de seguradoras</h5>
 					</div>
 					<div class="widget-content nopadding">
 
@@ -37,25 +37,25 @@
 								<tr>
 
 									<th>ID</th>
-									<th>Descri&ccedil;&atilde;o</th>
+									<th>Nome</th>
 
 									<th></th>
 
 								</tr>
 							</thead>
 							<tbody>
-								<g:each in="${tipoFuncionarioInstanceList}" status="i" var="tipoFuncionarioInstance">
+								<g:each in="${seguradoraInstanceList}" status="i" var="seguradoraInstance">
 									<tr>
 
 										<td>
-											${fieldValue(bean: tipoFuncionarioInstance, field: "id")}
+											${fieldValue(bean: seguradoraInstance, field: "id")}
 										</td>
 
 										<td>
-											${fieldValue(bean: tipoFuncionarioInstance, field: "descTipoFunc")}
+											${fieldValue(bean: seguradoraInstance, field: "nome")}
 										</td>
 
-										<td class="taskStatus"><g:link action="show" id="${tipoFuncionarioInstance.id}" data-original-title="Dados do tipo de funcion&aacute;rio">
+										<td class="taskStatus"><g:link action="show" id="${seguradoraInstance.id}" data-original-title="Dados da seguradora">
 												<i class="icon-zoom-in"></i>
 											</g:link></td>
 									</tr>

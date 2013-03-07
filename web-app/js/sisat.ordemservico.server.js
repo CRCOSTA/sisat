@@ -1,5 +1,19 @@
 window.server={
 		serverPath:'http://localhost:8080/SISAT/',
+		addMaterialNoEstoque : function(){
+			
+			 if(!$('#materialForm').valid()) return;
+			
+			 $.post(this.serverPath + 'estoqueFuncionario/save',
+					 $('#materialForm').serialize(), 
+					 function(data) {
+				 		
+				 		$('#alertSuccessMaterial').show();
+					 }).fail(function(error) {
+						 $('#errorMaterial').show();
+						 
+				 	 });
+		},
 		enviarPagamento : function(){
 			
 			 if(!$('#enviarPagamento').valid()) return;

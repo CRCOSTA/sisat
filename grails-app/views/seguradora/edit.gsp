@@ -1,5 +1,5 @@
 
-<%@ page import="model.TipoFuncionario" %>
+<%@ page import="model.Seguradora" %>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -13,13 +13,13 @@
 <body>
 
 	<div id="content-header">
-		<h1>Edi&ccedil;&atilde;o de tipos de funcion&aacute;rio</h1>
+		<h1>Edi&ccedil;&atilde;o de seguradoras</h1>
 
 	</div>
 	<div id="breadcrumb">
-		<a href="/" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="tip-bottom">tipos de funcion&aacute;rio</a>
+		<a href="/" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="tip-bottom">Seguradoras</a>
 		<g:link action="list" class="tip-bottom">Pesquisa</g:link>
-		<g:link action="show" id="${tipoFuncionarioInstance.id}" class="tip-bottom">Visualiza&ccedil;&atilde;o</g:link>
+		<g:link action="show" id="${seguradoraInstance.id}" class="tip-bottom">Visualiza&ccedil;&atilde;o</g:link>
 		<a href="#" class="current">Editar</a>
 	</div>
 
@@ -28,11 +28,11 @@
 		<div class="row-fluid">
 			<div class="span12">
 
-				<g:hasErrors bean="${tipoFuncionarioInstance}">
+				<g:hasErrors bean="${seguradoraInstance}">
 					<div class="alert alert-error">
 						<button class="close" data-dismiss="alert">×</button>
 						<strong>Erro!</strong> <br>
-						<g:renderErrors bean="${tipoFuncionarioInstance}" as="list" />
+						<g:renderErrors bean="${seguradoraInstance}" as="list" />
 					</div>
 				</g:hasErrors>
 				<div class="widget-box">
@@ -43,12 +43,12 @@
 					</div>
 					<div class="widget-content nopadding">
 						<g:form action="update" method="post" class="form-horizontal" novalidate="novalidate" name="createTipoFuncionario">
-							<g:hiddenField name="id" value="${tipoFuncionarioInstance?.id}" />
-							<g:hiddenField name="version" value="${tipoFuncionarioInstance?.version}" />
+							<g:hiddenField name="id" value="${seguradoraInstance?.id}" />
+							<g:hiddenField name="version" value="${seguradoraInstance?.version}" />
 							<div class="control-group">
-								<label class="control-label">Descri&ccedil;&atilde;o</label>
+								<label class="control-label">Nome</label>
 								<div class="controls">
-									<g:textField style="width:350px" name="descTipoFunc" value="${fieldValue(bean: tipoFuncionarioInstance, field: 'descTipoFunc')}" />
+									<g:textField style="width:350px" name="descTipoFunc" value="${fieldValue(bean: seguradoraInstance, field: 'nome')}" />
 
 								</div>
 							</div>

@@ -1,5 +1,5 @@
 
-<%@ page import="model.TipoFuncionario" %>
+<%@ page import="model.Seguradora" %>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -12,11 +12,11 @@
 <body>
 
 	<div id="content-header">
-		<h1>Visualiza&ccedil;&atilde;o de tipos de funcion&aacute;rio</h1>
+		<h1>Visualiza&ccedil;&atilde;o de seguradoras</h1>
 		
 		<div class="btn-group" style="width: auto;">
 			<g:if test="${session?.user?.admin}">
-				<g:link action="edit" id="${tipoFuncionarioInstance.id}" class="btn btn-large tip-bottom" data-original-title="Editar">
+				<g:link action="edit" id="${seguradoraInstance.id}" class="btn btn-large tip-bottom" data-original-title="Editar">
 					<i class="icon-edit"></i>
 				</g:link>
 			</g:if>
@@ -26,7 +26,7 @@
 
 	</div>
 	<div id="breadcrumb">
-		<a href="/" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="tip-bottom">tipos de funcion&aacute;rio</a><g:link action="list" class="tip-bottom">Pesquisa</g:link> <a href="#" class="current">Visualiza&ccedil;&atilde;o</a>
+		<a href="/" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="tip-bottom">Seguradoras</a><g:link action="list" class="tip-bottom">Pesquisa</g:link> <a href="#" class="current">Visualiza&ccedil;&atilde;o</a>
 	</div>
 
 
@@ -45,7 +45,7 @@
 					<div class="widget-title">
 						<span class="icon"> <i class="icon-align-justify"></i>
 						</span>
-						<h5>Dados do tipo de funcion&aacute;rio</h5>
+						<h5>Dados da seguradoras</h5>
 					</div>
 					<div class="widget-content nopadding">
 						<g:form class="form-horizontal" novalidate="novalidate" name="createTipoFuncionario">
@@ -53,15 +53,15 @@
 							<div class="control-group">
 								<label class="control-label atendimento-dados-label">ID:</label>
 								<div class="atendimento-dados">
-									${fieldValue(bean: tipoFuncionarioInstance, field: 'id')}
+									${fieldValue(bean: seguradoraInstance, field: 'id')}
 
 								</div>
 							</div>
 
 							<div class="control-group">
-								<label class="control-label atendimento-dados-label">Descri&ccedil;&atilde;o:</label>
+								<label class="control-label atendimento-dados-label">Nome:</label>
 								<div class="atendimento-dados">
-									${fieldValue(bean: tipoFuncionarioInstance, field: 'descTipoFunc')}
+									${fieldValue(bean: seguradoraInstance, field: 'nome')}
 
 								</div>
 							</div>
@@ -82,8 +82,6 @@
 	</div>
 
 	<g:javascript library="jquery.uniform" />
-	<g:javascript library="jquery.validate" />
-	<g:javascript library="sisat.tipofuncionario.create" />
 
 
 

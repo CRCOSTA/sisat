@@ -44,11 +44,13 @@
 						<li><g:link action="lotePagamento" controller="ordemServico">Lotes de Pagamento</g:link></li>
 					</ul>
 				</li>
-				<li class="submenu ${params.controller=='empresa'?'active open':''} ">
+				<li class="submenu ${params.controller=='empresa' || params.controller=='seguradora'?'active open':''} ">
 					<a href="#"><i class="icon icon-globe"></i> <span>Empresa</span> </a>
 					<ul>
 						<li><g:link action="list" controller="empresa">Pesquisar Empresa</g:link></li>
 						<li><g:link action="create" controller="empresa">Nova Empresa</g:link></li>
+						<li><g:link action="list" controller="seguradora">Pesquisar Seguradora</g:link></li>
+						<li><g:link action="create" controller="seguradora">Nova Seguradora</g:link></li>
 					</ul>
 				</li>
 				
@@ -62,23 +64,18 @@
 					</ul>
 				</li>
 				
-				<li class="submenu">
+				
+				<li class="submenu ${params.controller=='material'|| params.controller=='estoqueFuncionario'?'active open':''}">
 					<a href="#"><i class="icon icon-briefcase"></i> <span>Material</span> </a>
 					<ul>
-						<li><g:link action="material" controller="list">Pesquisar Material</g:link></li>
-						<li><g:link action="material" controller="create">Novo Material</g:link></li>
-						<li><g:link action="estoqueFuncionario" controller="list">Estoque do funcion&aacute;rio</g:link></li>
-						<li><g:link action="movimentacaoDeMaterial" controller="create">Movimenta&ccedil;&atilde;o</g:link></li>
+						<li><g:link action="list" controller="material">Pesquisar Material</g:link></li>
+						<li><g:link action="create" controller="material">Novo Material</g:link></li>
+						<li><g:link action="list" controller="estoqueFuncionario">Estoque do funcion&aacute;rio</g:link></li>
+						<li><g:link action="create" controller="estoqueFuncionario">Movimenta&ccedil;&atilde;o</g:link></li>
 					</ul>
 				</li>
 				
-				<li class="submenu">
-					<a href="#"><i class="icon icon-briefcase"></i> <span>Seguradora</span> </a>
-					<ul>
-						<li><g:link action="seguradora" controller="list">Pesquisar Seguradora</g:link></li>
-						<li><g:link action="seguradora" controller="create">Nova Seguradora</g:link></li>
-					</ul>
-				</li>
+				
 				
 				
 				<li class="submenu">

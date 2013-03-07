@@ -57,9 +57,6 @@ class BaseController {
 		
 		ultimoDia.set(anoAtual, mesAtual, calendarMesAtual.getActualMaximum(Calendar.DAY_OF_MONTH))
 		
-		println new SimpleDateFormat("dd/MM/yy HH:mm").format(primeiroDia.getTime())
-		println new SimpleDateFormat("dd/MM/yy HH:mm").format(ultimoDia.getTime())
-		
 		
 		def c = OrdemServico.createCriteria()
 		def atendimentosDoMes = c.list {

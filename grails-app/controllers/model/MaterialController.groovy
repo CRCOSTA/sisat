@@ -8,20 +8,8 @@ class MaterialController {
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def list = {
-        def queryFilter = "from Material o where 1=1 "
-       
-        if(params.descMaterial!=null && params.descMaterial!=""){
 
-            queryFilter = queryFilter + "and o.descricao like '%"+params.descMaterial+"%'"
-
-           
-        }
-
-        if(params.estoqueMinimo=="true"){
-            queryFilter = queryFilter + " and o.estoqueAtual <o.estoqueMinimo"
-        }
-
-        return [materialInstanceList: Material.findAll(queryFilter), materialInstanceTotal: Material.count()]
+        return [materialInstanceList: Material.list(params), materialInstanceTotal: Material.count()]
     }
 
     def create = {

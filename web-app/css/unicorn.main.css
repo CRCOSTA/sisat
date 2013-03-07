@@ -24,13 +24,13 @@ a:hover {
 }
 
 #header h1 {
-    background: url("/SISAT/images/logo.png") no-repeat scroll 0 0 transparent;
-    height: 31px;
+    background: url("/SISAT/images/logosisat.png") no-repeat scroll 0 0 transparent;
+    height: 50px;
     left: 15px;
     line-height: 600px;
     overflow: hidden;
     position: relative;
-    top: 24px;
+    top: 10px;
     width: 191px;
 }
 
@@ -1542,7 +1542,9 @@ form {
     color: black;
 }
 
-
+.datatable-estoque-minimo{
+	background-color: rgb(255, 221, 225);
+}
 
 
 

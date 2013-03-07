@@ -58,6 +58,8 @@ class MovimentacaoDeMaterialController extends BaseController{
 		
 		movimentacaoDeMaterialInstance.dataMovimentacao=new Date()
 		
+		movimentacaoDeMaterialInstance.tipo="Saida"
+		
 		if (!movimentacaoDeMaterialInstance.hasErrors() && movimentacaoDeMaterialInstance.save()) {
 			def material= estoqueFuncionario.material
 			material.estoqueAtual = material.estoqueAtual+ movimentacaoDeMaterialInstance.quantidade;

@@ -1,9 +1,14 @@
 $(document).ready(function(){
 
 	
-	$('#createTipoFuncionario').validate({
+	$('#createMaterial').validate({
 		rules:{
-			descTipoFunc:{required:true}
+			descricao:{required:true},
+			marca:{required:true},
+			valorCompra:{required:true},
+			valorVenda:{required:true},
+			estoqueMinimo:{required:true},
+			estoqueAtual::{required:true}
 			
 		},
 		errorClass: "help-inline",

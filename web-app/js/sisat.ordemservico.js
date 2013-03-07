@@ -1,7 +1,9 @@
 $(document).ready(function(){
 
 	
-	var geocoder = new google.maps.Geocoder(), now = new Date();
+	var geocoder = new google.maps.Geocoder();
+	
+	 window.now = new Date();
 	
 	jQuery.validator.addMethod("notNull", function(value, element) {
 		 console.log(value);
