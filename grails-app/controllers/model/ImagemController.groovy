@@ -96,36 +96,36 @@ class ImagemController extends BaseController{
             def ordemServicoInstance = OrdemServico.get(params.id)
 
 
-            for(int i=1;i<9;i++){
+            for(int i=1;i<6;i++){
 
                 def imagefile = request.getFile('foto'+i);
 
                 if(!imagefile.empty){
-
-                    String nomeImg = imagefile.hashCode()+'.jpg'
-
+			
+					String nomeImg = imagefile.hashCode()+'.jpg'
+		
 					String pathDir = System.getProperty("java.io.tmpdir")+"/"+ordemServicoInstance.id+"/"
 					
-                    File dir = new File(pathDir.trim());
+					File dir = new File(pathDir.trim());
 					
-				
-
-                    File f = new  File(pathDir.trim()+'/temp_' + nomeImg );
-                    imagefile.transferTo(f)
-                    
-                    createThumbnail(f,ordemServicoInstance.id,"thumb_"+nomeImg,session.siteConfig.bucketName)
-                    createPhoto(f,ordemServicoInstance.id,nomeImg,session.siteConfig.bucketName)
-                    
-                    f.delete()
-
-                    def foto = new Imagem(nomeImagem:nomeImg ,checklist:false)
-
-                    foto.ordemServico = ordemServicoInstance
-
-                    foto.save()
-
-                    gravaLog(ordemServicoInstance, LogOrdemServico.IMAGEM)
-                }
+					dir.mkdir()
+		
+					File f = new  File(pathDir.trim()+'/temp_' + nomeImg );
+					imagefile.transferTo(f)
+					
+					createThumbnail(f,ordemServicoInstance.id,"thumb_"+nomeImg,session.siteConfig.bucketName)
+					createPhoto(f,ordemServicoInstance.id,nomeImg,session.siteConfig.bucketName)
+					
+					f.delete()
+		
+					def foto = new Imagem(nomeImagem:nomeImg ,checklist:false)
+		
+					foto.ordemServico = ordemServicoInstance
+		
+					foto.save()
+		
+					gravaLog(ordemServicoInstance, LogOrdemServico.IMAGEM)
+				}
             }
 			if(session?.user?.tecnico){
 				redirect( controller:"ordemServico", action: "listByTecnico")

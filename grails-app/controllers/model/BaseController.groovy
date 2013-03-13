@@ -40,6 +40,39 @@ class BaseController {
 	
 	def meses=[1:"Janeiro",2:"Fevereiro",3:"Marco",4:"Abril",5:"Maio",6:"Junho",7:"Julho",8:"Agosto",9:"Setembro",10:"Outubro",11:"Novembro",12:"Dezembro"]
 
+	def homePesquisa = {
+			
+		
+		if(params.pesquisa){
+		
+			def numeroSplit = params.numero.split('/')
+			
+			def numero = numeroSplit[0]
+			def barra = ""
+			def atendimento=null
+			if(numeroSplit.length>1){
+				barra = numeroSplit[1]
+				
+				atendimento = OrdemServico.findByNumeroAndBarra(numero,barra)
+				
+				 [ordemServicoInstance: atendimento]
+			}else{
+				atendimento = OrdemServico.findByNumero(numero)
+				
+				print atendimento.id
+			
+				 [ordemServicoInstance: atendimento]
+			}
+		}else{
+			def ordem = OrdemServico.get(params.id)
+			println ordem.id
+			params.numero = ordem.numero
+			[ordemServicoInstance: ordem,params:params]
+			
+		}
+			
+	}
+	
 	def home = {
 		
 		
@@ -300,6 +333,11 @@ class BaseController {
                             // redireciona para home
 							if(u.tecnico){
 								redirect(uri:'/ordemServico/listByTecnico')
+								return;
+							}
+							
+							if(u.analista){
+								redirect(action:'homePesquisa')
 								return;
 							}
 						

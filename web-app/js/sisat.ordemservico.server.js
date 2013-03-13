@@ -112,6 +112,16 @@ window.server={
 				 		window.showErrorMsg("Validar","Erro ao validar senha");
 				 	});
 		},
+		gravarSaida : function(idAtend){
+			
+			 $.post(this.serverPath + 'ordemServico/gravarSaida',
+					 {id:idAtend}, 
+					 function(data) {  
+				 		console.log(data);
+				 	}).fail(function(error) {
+				 		console.error(data);
+				 	});
+		},
 		gravarHistorico : function(){
 			
 			if(!$('#historico').valid()) return;

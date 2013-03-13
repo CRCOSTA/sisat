@@ -6,7 +6,7 @@
 <form class="form-horizontal" name="validarSenha" id="validarSenha">              
 	 
 	<div class="modal-header">
-		<button onclick="$('#modalValidar').hide();" class="close" type="button">×</button>
+		<button onclick="$('#modalValidar').hide();" data-dismiss="modal" class="close" type="button">×</button>
 		<h5>Validar senha</h5>
 	</div>
 	<div class="modal-body">
@@ -26,7 +26,7 @@
     </div>
 	<div class="modal-footer">
 		<input type="button" class="btn btn-primary" value="Validar" onclick="server.validarSenha();" />
-		<input type="button"  class="btn" onclick="$('#modalValidar').hide();" value="Fechar"/>
+		<input type="button"  class="btn" data-dismiss="modal" onclick="$('#modalValidar').hide();" value="Fechar"/>
 	</div>
 </form>	
 </div>

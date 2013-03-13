@@ -68,6 +68,13 @@ class OrdemServicoController extends BaseController{
 		}
 	}
 	
+	def showTecnico = {
+		def ordemServicoInstance = OrdemServico.get(params.id)
+		if (ordemServicoInstance) {
+			[ordemServicoInstance: ordemServicoInstance]
+		}
+	}
+	
 	def filtros={
 		def ordemServicoInstance = new OrdemServico()
 		
@@ -174,6 +181,30 @@ class OrdemServicoController extends BaseController{
         }
     }
 
+	def createShort = {
+		def ordemServicoInstance = new OrdemServico()
+		ordemServicoInstance.properties = params
+		return [ordemServicoInstance: ordemServicoInstance]
+	}
+	
+	def saveShort = {
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		
+		params.dataAtendimento = df.parse(  params.dataAtendimento )
+		
+		def ordemServicoInstance = new OrdemServico(params)
+		ordemServicoInstance.status="aberta"
+
+		 
+		if (!ordemServicoInstance.hasErrors() && ordemServicoInstance.save()) {
+			gravaLog(ordemServicoInstance, LogOrdemServico.CADASTRO)
+			redirect(controller: "base", action: "homePesquisa", id:  ordemServicoInstance.id)
+		}
+		else {
+			render(view: "create", model: [ordemServicoInstance: ordemServicoInstance])
+		}
+	}
+	
     def create = {
         def ordemServicoInstance = new OrdemServico()
         ordemServicoInstance.properties = params
@@ -215,6 +246,16 @@ class OrdemServicoController extends BaseController{
             return [ordemServicoInstance: ordemServicoInstance]
         }
     }
+	 
+	def gravarSaida={
+		 def ordemServicoInstance = OrdemServico.get(params.id)
+		 if (ordemServicoInstance) {
+		 
+			 ordemServicoInstance.saida = new Date()
+			 
+			 render "ok"
+		 }
+	 }
 
     def fecharAtendimento={
          def ordemServicoInstance = OrdemServico.get(params.id)

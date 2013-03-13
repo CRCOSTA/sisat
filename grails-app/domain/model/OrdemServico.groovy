@@ -143,7 +143,7 @@ class OrdemServico {
 		endereco(blank:false,maxSize:400)
 		cidade(blank:true)
 		bairro(blank:false)
-		referencia(blank:true,maxSize:400)
+		referencia(blank:true,nullable:true,maxSize:400)
 		dataAcionamento(blank:false)		
 		evento(inList:["1ª Visita","Retorno","Conclusão","Garantia"])
 		formaDeAcionamento(blank:true,nullable:true,inList:["Eletronico","Telefonico"])
