@@ -55,20 +55,17 @@ class BaseController {
 				
 				atendimento = OrdemServico.findByNumeroAndBarra(numero,barra)
 				
-				 [ordemServicoInstance: atendimento]
+				[ordemServicoInstance: atendimento]
 			}else{
 				atendimento = OrdemServico.findByNumero(numero)
-				
-				print atendimento.id
-			
-				 [ordemServicoInstance: atendimento]
+    			[ordemServicoInstance: atendimento]
 			}
 		}else{
 			def ordem = OrdemServico.get(params.id)
-			println ordem.id
-			params.numero = ordem.numero
-			[ordemServicoInstance: ordem,params:params]
-			
+			if(ordem){
+				params.numero = ordem.numero
+				[ordemServicoInstance: ordem,params:params]
+			}
 		}
 			
 	}
@@ -337,8 +334,13 @@ class BaseController {
 							}
 							
 							if(u.analista){
-								redirect(action:'homePesquisa')
+								redirect(action:'home')
 								return;
+							}
+							
+						    if(u.operador){
+								redirect(controller:'base',action:'homePesquisa')
+								return
 							}
 						
                             redirect(action:'home')

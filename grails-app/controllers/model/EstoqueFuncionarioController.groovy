@@ -36,12 +36,18 @@ class EstoqueFuncionarioController {
 		params.dataInclusao = df.parse(  params.dataInclusao )
 		
 		def material = Material.get(Integer.parseInt( params.material.id))
+		def funcionario = Funcionario.get(params.funcionario.id)
 		
-		def estoque = EstoqueFuncionario.findByMaterial(material)
+		def estoque = EstoqueFuncionario.findByMaterialAndFuncionario(material,funcionario)
+		
+		println estoque
 		
 		if(estoque){
 			estoque.qtd = estoque.qtd + Integer.parseInt(params.qtd)
 			estoque.dataInclusao = params.dataInclusao
+			
+			println estoque.qtd
+			
 			if (!estoque.hasErrors() && estoque.save()) {
 				render "ok" 
 			}else{
@@ -49,6 +55,7 @@ class EstoqueFuncionarioController {
 			}
 		}else{
 		
+			println "novo cadastro"
 	        def estoqueFuncionarioInstance = new EstoqueFuncionario(params)
 	        if (!estoqueFuncionarioInstance.hasErrors() && estoqueFuncionarioInstance.save()) {
 	         	render "ok"

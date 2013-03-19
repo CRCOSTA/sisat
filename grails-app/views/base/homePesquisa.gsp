@@ -6,6 +6,8 @@
 <link rel="stylesheet" href="${resource(dir:'css',file:'bootstrap-image-gallery.css')}" />
 <link rel="stylesheet" href="${resource(dir:'css',file:'uniform.css')}" />
 <link rel="stylesheet" href="${resource(dir:'css',file:'sistat.atendimento.show.print.css')}" media="print" />
+<link rel="stylesheet" href="${resource(dir:'css',file:'uploadify.css')}" />
+
 
 <style type="text/css">
 .form-span input[type="text"][class*="span"] {
@@ -43,7 +45,14 @@
 		<h1>Pesquisa de atendimentos</h1>
 
 		<div class="btn-group" style="width: auto;">
-
+			<g:if test="${session?.user?.operador}">
+				<a href="#modaluploadfoto" data-toggle="modal" onclick="prepararFormUploadFoto('${ordemServicoInstance?.id}');" class="btn btn-primary btn-large tip-bottom" data-original-title="Incluir fotos">
+					<i class="icon-camera icon-white"></i>
+				</a>
+				<g:link controller="ordemServico" action="edit" id="${ordemServicoInstance?.id}" class="btn btn-primary btn-large tip-bottom" data-original-title="Editar">
+					<i class="icon-edit icon-white"></i>
+				</g:link>
+			</g:if>
 			<a class="btn btn-large tip-bottom" data-original-title="Imprimir" data-toggle="modal" id='btnPrint' onclick="window.print();"><i class="icon-print"></i></a>
 
 		</div>
@@ -88,7 +97,7 @@
 									<span><g:formatDate date="${ordemServicoInstance?.dataAtendimento}" format="dd/MM/yyyy" /> de: ${ordemServicoInstance?.previaInicial} até: ${ordemServicoInstance?.previaFinal}</span>
 								</div>
 							</div>
-							
+
 							<div class="control-group">
 								<label class="control-label atendimento-dados-label"> Chegada: </label>
 								<div class="atendimento-dados">
@@ -151,10 +160,19 @@
 
 	</div>
 
+	<g:render template="/ordemServico/uploadFoto" />
 
-
+	<g:javascript library="bootstrap-datepicker" />
+	<g:javascript library="locales/bootstrap-datepicker.pt-BR" />
+	<g:javascript library="bootstrap-timepicker" />
+	<g:javascript library="jquery.uniform" />
+	<g:javascript library="jquery.ui.custom" />
+	<g:javascript library="select2" />
 	<g:javascript library="load-image" />
 	<g:javascript library="bootstrap-image-gallery" />
+	<g:javascript library="jquery.uploadify-3.1" />
+	<g:javascript library="sisat.ordemservico.filtros" />
+	<g:javascript library="sisat.ordemservico.server" />
 
 
 

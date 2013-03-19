@@ -17,6 +17,7 @@ class MovimentacaoDeMaterial {
         tipo(inList:["Entrada","Saida"])
         material(blank:false,nullable:false)
         ordemServico(blank:true,nullable:true)
+		funcionario(blank:true,nullable:true)
         dataMovimentacao(blanck:false);
     }
 

@@ -42,7 +42,7 @@
 
 									<th>Tipo Funcionario</th>
 
-									<th>Nome</th>
+									<th>Login</th>
 
 									<th>Email</th>
 
@@ -71,7 +71,7 @@
 										</td>
 
 										<td>
-											${fieldValue(bean: funcionarioInstance, field: "nome")}
+											${fieldValue(bean: funcionarioInstance, field: "login")}
 										</td>
 
 										<td>

@@ -71,7 +71,7 @@
 						<li><g:link action="list" controller="material">Pesquisar Material</g:link></li>
 						<li><g:link action="create" controller="material">Novo Material</g:link></li>
 						<li><g:link action="list" controller="estoqueFuncionario">Estoque do funcion&aacute;rio</g:link></li>
-						<li><g:link action="create" controller="estoqueFuncionario">Movimenta&ccedil;&atilde;o</g:link></li>
+						<li><g:link action="create" controller="movimentacaoDeMaterial">Entrada de material</g:link></li>
 					</ul>
 				</li>
 				

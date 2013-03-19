@@ -23,22 +23,12 @@ class MovimentacaoDeMaterialController extends BaseController{
 	}
 
     def create = {
-        def ordemServicoInstance = OrdemServico.get(params.id)
-        if (!ordemServicoInstance) {
-            flash.message = "ordemServico.not.found"
-            flash.args = [params.id]
-            flash.defaultMessage = "OrdemServico not found with id ${params.id}"
-            redirect(action: "list")
-        }else{
             
             def movimentacaoDeMaterialInstance = new MovimentacaoDeMaterial()
             movimentacaoDeMaterialInstance.properties = params
-            def movimentacaoDeMaterialPorOrdemServico = MovimentacaoDeMaterial.findAllByOrdemServico(ordemServicoInstance,[sort:"dataMovimentacao",order:"asc"]);
 			
-			def listMaterial = EstoqueFuncionario.findAllByFuncionario(ordemServicoInstance.funcionario);
 			
-            return [movimentacaoDeMaterialInstance: movimentacaoDeMaterialInstance,ordemServicoInstance: ordemServicoInstance,movimentacaoDeMaterialPorOrdemServico:movimentacaoDeMaterialPorOrdemServico,listMaterial:listMaterial]
-        }
+            return [movimentacaoDeMaterialInstance: movimentacaoDeMaterialInstance]
     }
 	
 	def saveAjax = {
