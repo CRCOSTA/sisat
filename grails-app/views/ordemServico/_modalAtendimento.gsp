@@ -39,7 +39,7 @@
 
 	</div>
 	<div class="modal-footer">
-		<g:if test="${!session?.user?.analista}">
+		<g:if test="${!session?.user?.analistaExterno}">
 			<div class="btn-group" style="width: auto;" id="actionGroup${ordemServicoInstance.id}">
 
 				<button id="encaminharBtn${ordemServicoInstance.id}" onclick="prepararFormEncaminhar('${ordemServicoInstance.id}')" class="btn btn-primary btn-large tip-top aberta com_o_tecnico"

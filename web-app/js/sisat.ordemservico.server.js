@@ -1,5 +1,5 @@
 window.server={
-		serverPath:'http://localhost:8080/SISAT/',
+		serverPath:'http://192.168.1.103:8080/SISAT/',
 		addMaterialNoEstoque : function(){
 			
 			 if(!$('#materialForm').valid()) return;
@@ -108,6 +108,7 @@ window.server={
 				 		$('#modalValidar').hide();
 				 		window.trocaStatus("senha validada","label label-senha_validada",idAtend);
 				 		window.prepararActions(idAtend,'senha_validada');
+				 		$('#myAlert').modal('show');
 				 	}).fail(function(error) {
 				 		window.showErrorMsg("Validar","Erro ao validar senha");
 				 	});
@@ -117,9 +118,9 @@ window.server={
 			 $.post(this.serverPath + 'ordemServico/gravarSaida',
 					 {id:idAtend}, 
 					 function(data) {  
-				 		console.log(data);
+						 $('#myAlert').modal('show');
 				 	}).fail(function(error) {
-				 		console.error(data);
+				 		console.error(error.toString());
 				 	});
 		},
 		gravarHistorico : function(){

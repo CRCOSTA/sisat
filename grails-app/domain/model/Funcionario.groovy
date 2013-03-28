@@ -2,7 +2,7 @@ package model
 
 class Funcionario {
     static hasMany = [estoque:EstoqueFuncionario]
-	static transients = ['analista','tecnico','operador']
+	static transients = ['analistaExterno','tecnico','operador']
     static constraints = {
         empresa(blank:false)
         tipoFuncionario(blank:false)
@@ -67,7 +67,7 @@ class Funcionario {
 		return tipoFuncionario.id==12
 	}
 	
-	boolean isAnalista(){
+	boolean isAnalistaExterno(){
 		
 		return tipoFuncionario.id==10
 	}

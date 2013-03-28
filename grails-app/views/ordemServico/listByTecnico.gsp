@@ -20,7 +20,7 @@
 <body>
 
 	<div id="content-header">
-		<h1>Pesquisa de atendimentos</h1>
+		<h1>Atendimentos</h1>
 
 	</div>
 	<div class="widget-content nopadding updates">

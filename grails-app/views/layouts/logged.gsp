@@ -78,7 +78,7 @@
 				
 				
 				
-				<li class="submenu">
+				<!-- li class="submenu">
 					<a href="#"><i class="icon icon-user"></i> <span>Localiza&ccedil;&atilde;o</span> </a>
 					<ul>
 						<li><g:link action="bairro" controller="list">Bairro</g:link></li>
@@ -86,9 +86,9 @@
 						<li><g:link action="bairro" controller="list">Estado</g:link></li>
 						
 					</ul>
-				</li>
+				</li> -->
 				
-				<li class="submenu">
+				<li class="submenu ${params.controller=='relatorio'?'active open':''}">
 					<a href="#"><i class="icon icon-user"></i> <span>Relat&oacute;rios</span> </a>
 					<ul>
 						<li><g:link action="planilha" controller="relatorio">Planilha de Atendimentos</g:link> </li>

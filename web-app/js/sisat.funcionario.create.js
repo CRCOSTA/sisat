@@ -33,6 +33,29 @@ $(document).ready(function(){
 		ignore:""
 	});
 	
+	$('#editPasswordFuncionario').validate({
+		rules:{
+			senhaAtual:{required: true},
+			senhaNova:{required: true,
+				minlength:6,
+				maxlength:20},
+			senhaConfirm:{required:true,
+				minlength:6,
+				maxlength:20,
+				equalTo:"#senhaNova"}
+			
+		},
+		errorClass: "help-inline",
+		errorElement: "span",
+		highlight:function(element, errorClass, validClass) {
+			$(element).parents('.control-group').addClass('error');
+		},
+		unhighlight: function(element, errorClass, validClass) {
+			$(element).parents('.control-group').removeClass('error');
+		},
+		ignore:""
+	});
+	
 	$("#celular").mask("(99) 9999-9999");
 	
 	$("#telefone").mask("(99) 9999-9999");

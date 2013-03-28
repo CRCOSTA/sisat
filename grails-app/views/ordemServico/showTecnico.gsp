@@ -14,18 +14,17 @@
 
 	<div id="content-header">
 		<h1>
-			Atendimento -
 			${fieldValue(bean: ordemServicoInstance, field: "numero")}/${fieldValue(bean: ordemServicoInstance, field: "barra")}
 		</h1>
 
 		<div class="btn-group" style="width: auto;">
 			<g:link action="listByTecnico" class="btn btn-success btn-large">
 				<i class="icon-chevron-left icon-white"></i>&nbsp;</g:link>
-			<a class="btn btn-primary btn-large" href="#modalValidar" data-toggle="modal" onclick="prepararFormValidarSenha('${ordemServicoInstance.id}');"> <i class="icon-lock icon-white"></i>&nbsp;Senha
-			</a> <a class="btn btn-primary btn-large" href="#modaluploadfoto" data-toggle="modal"> <i class="icon-camera icon-white"></i>&nbsp;Fotos
+			<a class="btn btn-primary btn-large" href="#modalValidar" data-toggle="modal" onclick="prepararFormValidarSenha('${ordemServicoInstance.id}');"> <i class="icon-lock icon-white"></i>&nbsp;
+			</a> <a class="btn btn-primary btn-large" href="#modaluploadfoto" data-toggle="modal"> <i class="icon-camera icon-white"></i>&nbsp;
 			</a>
 			<button class="btn btn-primary btn-large" id="gravarSaida${ordemServicoInstance.id}" onclick="server.gravarSaida('${ordemServicoInstance.id}');">
-				<i class="icon-ok icon-white"></i>&nbsp;Finalizar
+				<i class="icon-ok icon-white"></i>&nbsp;
 			</button>
 
 		</div>
@@ -44,6 +43,19 @@
 		</div>
 		<div class="modal-footer">
 			<a class="btn btn-primary modal-next">Pr&oacute;ximo <i class="icon-arrow-right icon-white"></i></a> <a class="btn btn-info modal-prev"><i class="icon-arrow-left icon-white"></i> Anterior</a>
+		</div>
+	</div>
+
+	<div id="myAlert" class="modal hide">
+		<div class="modal-header">
+			<button data-dismiss="modal" class="close" type="button">×</button>
+			<h3>Alerta</h3>
+		</div>
+		<div class="modal-body">
+			<p>Opera&ccedil;&atilde;o efetuada com sucesso.</p>
+		</div>
+		<div class="modal-footer">
+			<a data-dismiss="modal" class="btn btn-primary" href="#">Fechar</a> 
 		</div>
 	</div>
 

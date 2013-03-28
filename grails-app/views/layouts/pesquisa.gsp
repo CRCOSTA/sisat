@@ -36,7 +36,7 @@
 					<a href="#"><i class="icon icon-list-alt"></i> <span>Principal </span> </a>
 					<ul>
 						<li><g:link action="homePesquisa" controller="base">Pesquisar Atendimentos</g:link></li>
-						<li><g:link action="lotePagamento" controller="ordemServico">Alterar senha</g:link></li>
+						<li><g:link action="editPassword" controller="funcionario" id="${session?.user?.id}">Alterar senha</g:link></li>
 						<g:if test="${session?.user?.operador}">
 							<li><g:link action="createShort" controller="ordemServico">Novo Atendimento</g:link></li>
 						</g:if>

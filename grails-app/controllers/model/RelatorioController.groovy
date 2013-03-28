@@ -2,9 +2,14 @@ package model
 
 import grails.converters.JSON
 
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+
 class RelatorioController extends BaseController{
 
 	def index = {[dia:new Date()] }
+	
+	static DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
 	def totalPorFuncionario = {
 		def inicio = params.inicio
@@ -228,7 +233,7 @@ class RelatorioController extends BaseController{
 	def totalAtendimentosPorModalidade = {
 
 		def inicio = params.inicio
-		def fim = params.fim
+		def fim = params.final
 		def modalidadesList = Modalidade.findAll()
 		def totalPorModalidade = new LinkedHashMap()
 		def empresasList = Empresa.findAll()
@@ -236,18 +241,26 @@ class RelatorioController extends BaseController{
 
 		def totalGeralPorEmpresa = new LinkedHashMap()
 		def totGeral = 0;
+		def atendimentoPorModalidadeTotal=""
 
 		if(inicio!=null && fim!=null){
-
+			Date dataIni = df.parse(inicio);
+			Date dataFim = df.parse(fim);
+			params.dateIni = inicio
+			params.dateFim = fim
+			def i=0
 			for(Modalidade m:modalidadesList){
-				def tot = OrdemServico.countByDataAtendimentoBetweenAndModalidade(inicio,fim,m)
+				def tot = OrdemServico.countByDataAtendimentoBetweenAndModalidade(dataIni,dataFim,m)
 				totalPorModalidade.put(m.descricao,tot)
+				atendimentoPorModalidadeTotal = atendimentoPorModalidadeTotal + "{\"label\":\""+m.descricao +"\",\"data\":[["+i+","+ tot + "]]},"
+				i++
+				
 				def qtdPorModalidadeEmpresa = new LinkedHashMap()
 				def params = new LinkedHashMap();
 				for(Empresa empresa:empresasList){
 					params.put("p_modalidade",m);
-					params.put("p_inicio",inicio);
-					params.put("p_fim",fim);
+					params.put("p_inicio",dataIni);
+					params.put("p_fim",dataFim);
 					params.put("p_empresa",empresa);
 					def totstatus= OrdemServico.executeQuery('select count(o) from OrdemServico o where (o.dataAtendimento between :p_inicio and :p_fim ) and o.empresa=:p_empresa and o.modalidade=:p_modalidade',params)[0]
 					qtdPorModalidadeEmpresa.put(empresa.nome,totstatus);
@@ -267,17 +280,21 @@ class RelatorioController extends BaseController{
 
 				totGeral = totGeral + tot
 			}
+			
+			if(atendimentoPorModalidadeTotal!=""){
+				atendimentoPorModalidadeTotal = "["+ atendimentoPorModalidadeTotal.substring(0,atendimentoPorModalidadeTotal.length()-1) + "]"
+			}
 
 		}
 
-		[totalGeral:totGeral,totalPorModalidadeMap:totalPorModalidade, modalidades:modalidadesList,todasAsEmpresas:todasAsEmpresas,empresaList:empresasList,totalGeralPorEmpresa:totalGeralPorEmpresa]
+		[totalGeral:totGeral,totalPorModalidadeMap:totalPorModalidade, modalidades:modalidadesList,todasAsEmpresas:todasAsEmpresas,empresaList:empresasList,totalGeralPorEmpresa:totalGeralPorEmpresa,atendimentoPorModalidadeTotal:atendimentoPorModalidadeTotal]
 
 	}
 
 	def totalAtendimentos = {
-
+		
 		def inicio = params.inicio
-		def fim = params.fim
+		def fim = params.final
 		def empresasList = Empresa.findAll()
 		def totalPorEmpresa = new LinkedHashMap()
 
@@ -285,18 +302,26 @@ class RelatorioController extends BaseController{
 		def statusList = OrdemServico.constraints.status.inList;
 		def totalGeralPorStatus = new LinkedHashMap()
 		def totGeral = 0;
+		def atendimentosPorEmpresaTotal ="" 
 
 		if(inicio!=null && fim!=null){
-
+			
+			Date dataIni = df.parse(inicio);
+			Date dataFim = df.parse(fim);
+			params.dateIni = inicio
+			params.dateFim = fim
+			int i=0;
 			for(Empresa e:empresasList){
-				def tot = OrdemServico.countByDataAtendimentoBetweenAndEmpresa(inicio,fim,e)
+				def tot = OrdemServico.countByDataAtendimentoBetweenAndEmpresa(dataIni,dataFim,e)
 				totalPorEmpresa.put(e.nome,tot)
+				atendimentosPorEmpresaTotal = atendimentosPorEmpresaTotal + "{\"label\":\""+e.nome +"\",\"data\":[["+i+","+ tot + "]]},"
+				i++
 				def qtdPorEmpresaStatus = new LinkedHashMap()
 				def params = new LinkedHashMap();
 				for(String status:statusList){
 					params.put("p_empresa",e);
-					params.put("p_inicio",inicio);
-					params.put("p_fim",fim);
+					params.put("p_inicio",dataIni);
+					params.put("p_fim",dataFim);
 					params.put("p_status",status);
 					def totstatus= OrdemServico.executeQuery('select count(o) from OrdemServico o where (o.dataAtendimento between :p_inicio and :p_fim ) and o.empresa=:p_empresa and status=:p_status',params)[0]
 					qtdPorEmpresaStatus.put(status,totstatus);
@@ -316,15 +341,18 @@ class RelatorioController extends BaseController{
 
 				totGeral = totGeral + tot
 			}
+			
+			if(atendimentosPorEmpresaTotal!=""){
+				atendimentosPorEmpresaTotal = "["+ atendimentosPorEmpresaTotal.substring(0,atendimentosPorEmpresaTotal.length()-1) + "]"
+			}
 
 		}
 
-		[totalGeral:totGeral,totalPorEmpresaMap:totalPorEmpresa, empresas:empresasList,todosOsStatus:todosOsStatus,statusList:statusList,totalGeralPorStatus:totalGeralPorStatus]
+		[totalGeral:totGeral,totalPorEmpresaMap:totalPorEmpresa, empresas:empresasList,todosOsStatus:todosOsStatus,statusList:statusList,totalGeralPorStatus:totalGeralPorStatus,atendimentosPorEmpresaTotal:atendimentosPorEmpresaTotal]
 
 	}
 
 	def planilha = {
-		def dia = params.inicio
 
 		def fList = Funcionario.findAllByTipoFuncionarioNotAndAtivo(model.TipoFuncionario.get(1),true)
 		def ordensPorFuncionarioManhaMap = new LinkedHashMap()
@@ -336,7 +364,13 @@ class RelatorioController extends BaseController{
 
 
 		def totalDiario=0
-		if(dia!=null){
+		
+		def atendimentosPorStatusDia = [:].withDefault { [] }
+		def totalAtendimentosPorStatusDia = [:].withDefault { [] }
+		def	dia
+		if(params.inicio!=null){
+			dia= new SimpleDateFormat("dd/MM/yy HH:mm").parse(params.inicio+" 00:00");
+			
 			def diaSeguinte = dia +1
 
 			for(Funcionario f:fList){
@@ -348,6 +382,10 @@ class RelatorioController extends BaseController{
 				queryParams.put("p_periodo_fim","12:00")
 				def lstManha =  OrdemServico.findAll(query,queryParams)
 				ordensPorFuncionarioManhaMap.put(f.nome,lstManha)
+				
+				lstManha.each {
+					atendimentosPorStatusDia[it.status] << it
+				}
 
 				queryParams.remove("p_periodo_ini")
 				queryParams.remove("p_periodo_fim")
@@ -355,6 +393,10 @@ class RelatorioController extends BaseController{
 				queryParams.put("p_periodo_fim","18:00")
 				def lstTarde = OrdemServico.findAll(query,queryParams)
 				ordensPorFuncionarioTardeMap.put(f.nome, lstTarde)
+				
+				lstTarde.each {
+					atendimentosPorStatusDia[it.status] << it
+				}
 
 				queryParams.remove("p_periodo_ini")
 				queryParams.remove("p_periodo_fim")
@@ -362,15 +404,29 @@ class RelatorioController extends BaseController{
 				queryParams.put("p_periodo_fim","24:00")
 				def lstNoite = OrdemServico.findAll(query,queryParams)
 				ordensPorFuncionarioNoiteMap.put(f.nome, lstNoite)
+				
+				lstNoite.each {
+					atendimentosPorStatusDia[it.status] << it
+				}
 
 				def totalPorFunc = lstManha.size() + lstTarde.size() + lstNoite.size()
 				totalDiario = totalDiario + totalPorFunc
 				totalOrdensPorFuncionarioMap.put(f.nome,totalPorFunc)
 			}
+			
+			
+			
+			def statusList = OrdemServico.constraints.status.inList
+			
+			statusList.each {
+				
+				totalAtendimentosPorStatusDia[it]<< atendimentosPorStatusDia[it].size()
+				
+			}
 
 
 		}
-		[funcionarioInstanceList: fList,ordensPorFuncionarioManhaMap:ordensPorFuncionarioManhaMap,dia:dia,ordensPorFuncionarioTardeMap:ordensPorFuncionarioTardeMap,ordensPorFuncionarioNoiteMap:ordensPorFuncionarioNoiteMap,statusList:OrdemServico.constraints.status.inList,totalOrdensPorFuncionarioMap:totalOrdensPorFuncionarioMap,totalDiario:totalDiario]
+		[totalAtendimentosPorStatusDia:totalAtendimentosPorStatusDia,funcionarioInstanceList: fList,ordensPorFuncionarioManhaMap:ordensPorFuncionarioManhaMap,dia:dia,ordensPorFuncionarioTardeMap:ordensPorFuncionarioTardeMap,ordensPorFuncionarioNoiteMap:ordensPorFuncionarioNoiteMap,statusList:OrdemServico.constraints.status.inList,totalOrdensPorFuncionarioMap:totalOrdensPorFuncionarioMap,totalDiario:totalDiario]
 	}
 	
 	def mapa = {

@@ -333,8 +333,8 @@ class BaseController {
 								return;
 							}
 							
-							if(u.analista){
-								redirect(action:'home')
+							if(u.analistaExterno){
+								redirect(action:'homePesquisa')
 								return;
 							}
 							

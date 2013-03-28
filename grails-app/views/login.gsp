@@ -37,7 +37,7 @@ $(document).ready(function(){
         </div>
 	<div id="loginbox">
 	<g:form name="loginform" action="handleLogin" controller="base" class="form-vertical" >
-			<p>Digite o nome do Usu&aacute;rio e a senha.</p>
+			<p>Digite o login e a senha.</p>
 			<div class="control-group">
 				<div class="controls">
 					<div class="input-prepend">

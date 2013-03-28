@@ -92,7 +92,7 @@ class OrdemServicoController extends BaseController{
         def queryParams = new LinkedHashMap()
 		def empresa = null;
 		
-		if(session.user.analista){
+		if(session.user.analistaExterno){
 			empresa = Empresa.get(session.user.empresa.id)
 		}
 

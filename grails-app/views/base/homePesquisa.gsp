@@ -60,7 +60,13 @@
 	<div class="container-fluid">
 		<div class="row-fluid">
 			<div class="span12">
-
+				<g:if test="${flash.message}">
+					<div class="alert alert-success">
+						<button class="close" data-dismiss="alert">×</button>
+						<strong>Sucesso!</strong> <br>
+						<g:message code="${flash.message}" args="${flash.args}" default="${flash.defaultMessage}" />
+					</div>
+				</g:if>
 				<g:form action="homePesquisa" method="post" class="well form-search form-span">
 					<div class="span12">
 						<input type="text" name="numero" placeholder="N&uacute;mero do Atendimento..." value="${params.numero }" class="offset1 span7 input-large" />

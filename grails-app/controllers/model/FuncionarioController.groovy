@@ -16,6 +16,48 @@ class FuncionarioController extends BaseController{
         funcionarioInstance.properties = params
         return [funcionarioInstance: funcionarioInstance]
     }
+	
+	def editPassword = {
+		println params.edit
+		if(!params.edit){
+			def funcionarioInstance = Funcionario.get(params.id)
+			if (!funcionarioInstance) {
+				flash.message = "funcionario.not.found"
+				flash.args = [params.id]
+				flash.defaultMessage = "Funcionario not found with id ${params.id}"
+				redirect(action: "list")
+			}
+			else {
+				return [funcionarioInstance: funcionarioInstance]
+			}
+		}else{
+			 	def funcionarioInstance = Funcionario.get(params.id)
+		        if (funcionarioInstance) {
+		            if (params.version) {
+		                def version = params.version.toLong()
+		                if (funcionarioInstance.version > version) {
+		                    funcionarioInstance.errors.rejectValue("version", "funcionario.optimistic.locking.failure", "Another user has updated this Funcionario while you were editing")
+		                    render(view: "editPassword", model: [funcionarioInstance: funcionarioInstance])
+		                    return
+		                }else{
+							if(!funcionarioInstance.senha.equals(params.senhaAtual)){
+								funcionarioInstance.errors.rejectValue("senha", "Senha n‹o confere.", "Senha n‹o confere.")
+								render(view: "editPassword", model: [funcionarioInstance: funcionarioInstance])
+								return
+							}else{
+								funcionarioInstance.senha = params.senhaNova
+								if (!funcionarioInstance.hasErrors() && funcionarioInstance.save()) {
+									flash.message = "funcionario.updated"
+									flash.args = [params.id]
+									flash.defaultMessage = "Funcionario ${params.id} atualizado"
+									redirect(action: "homePesquisa",controller:"base")
+								}
+							}
+		                }
+		            }
+		        }
+		}
+	}
 
     def save = {
         def funcionarioInstance = new Funcionario(params)

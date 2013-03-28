@@ -274,7 +274,7 @@ $.extend($.validator, {
 		number: "Please enter a valid number.",
 		digits: "Please enter only digits.",
 		creditcard: "Please enter a valid credit card number.",
-		equalTo: "Please enter the same value again.",
+		equalTo: "Valores dos campos s&atilde;o diferentes.",
 		accept: "Please enter a value with a valid extension.",
 		maxlength: $.validator.format("O campo n&atilde;o pode ser maior do que {0} characters."),
 		minlength: $.validator.format("O campo n&atilde;o pode ser menor do que {0} characters."),
